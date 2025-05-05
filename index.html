@@ -1,42 +1,228 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dutch Grammar Checker</title>
-    <meta name="description" content="Check your Dutch grammar instantly" />
+    <meta name="description" content="Check Dutch grammar" />
     <meta name="author" content="DutchChecker" />
 
-    <meta property="og:title" content="Dutch Grammar Checker" />
-    <meta property="og:description" content="Check your Dutch grammar instantly" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-    
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/src/index.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/index.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@li3/": "https://--li3.static.apphor.de/",
+          "@sodium/": "https://--sodium.static.apphor.de/",
+          "@lucide/": "https://--lucide.static.apphor.de/"
+        }
+      }
+    </script>
+    <script type="module">
+      import "@li3/web";
+    </script>
   </head>
-
   <body class="flex flex-col min-h-screen bg-gray-50">
-    <header-component></header-component>
-    
-    <main class="container max-w-4xl mx-auto px-4 py-8 flex-grow">
-      <h2 class="text-2xl font-bold text-center mb-6">Dutch Grammar Checker</h2>
-      <p class="text-center text-gray-600 mb-8">Type or paste a Dutch sentence to check its grammar</p>
-      
-      <grammar-form></grammar-form>
-      
-      <results-display></results-display>
-    </main>
-    
-    <footer-component></footer-component>
+    <template component="header-component">
+      <header class="w-full py-4 border-b border-gray-200 bg-white shadow-sm">
+        <div
+          class="container max-w-4xl mx-auto px-4 flex justify-between items-center"
+        >
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-full dutch-gradient"></div>
+            <h1 class="text-2xl font-bold">
+              <span class="text-red">Dutch</span
+              ><span class="text-blue">Checker</span>
+            </h1>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Grammar Check Tool</p>
+          </div>
+        </div>
+        <style>
+          :root {
+            --dutch-orange: #fb923c;
+            --dutch-red: #ad1d25;
+            --dutch-white: #ffffff;
+            --dutch-blue: #1e4785;
+          }
+          .text-orange {
+            color: var(--dutch-orange);
+          }
+          .text-blue {
+            color: var(--dutch-blue);
+          }
+          .text-red {
+            color: var(--dutch-red);
+          }
+          .bg-orange {
+            background-color: var(--dutch-orange);
+          }
+          .dutch-gradient {
+            background: linear-gradient(
+              90deg,
+              var(--dutch-red) 0%,
+              var(--dutch-red) 33%,
+              var(--dutch-white) 33%,
+              var(--dutch-white) 66%,
+              var(--dutch-blue) 67%,
+              var(--dutch-blue) 100%
+            );
+          }
+        </style>
+      </header>
+    </template>
 
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script src="/src/main.js" type="module"></script>
+    <template component="footer-component">
+      <footer class="w-full py-4 border-t border-gray-200 bg-white mt-auto">
+        <div class="container max-w-4xl mx-auto px-4">
+          <div class="flex flex-col sm:flex-row justify-between items-center">
+            <p class="text-sm text-gray-500">© 2025 DutchChecker</p>
+            <p class="text-sm text-gray-500 mt-2 sm:mt-0">
+              Check your Dutch grammar instantly
+            </p>
+          </div>
+        </div>
+      </footer>
+    </template>
+
+    <template app>
+      <script setup>
+        import dutchGrammar from "https://aifn.run/fn/a1b20b81-62d1-4b4e-b943-2a0cd4025c55.js";
+        import { defineProp, defineEvent, signal, effect } from "@li3/web";
+
+        export default function () {
+          const text = signal("");
+          const results = signal("");
+          const correct = signal(false);
+          const classList = signal("");
+          const checking = signal(false);
+
+          const onSubmit = async () => {
+            const source = text.value;
+
+            if (!source.trim()) {
+              return;
+            }
+
+            checking.value = true;
+            const output = await dutchGrammar(source);
+            checking.value = false;
+
+            if (output.trim().replace(/\W+/g, "").toLowerCase() === "correct") {
+              classList.value =
+                "p-4 border rounded-md mb-4 bg-green-50 border-green-200";
+              correct.value = true;
+              results.value = "OK";
+              return;
+            }
+
+            classList.value =
+              "p-4 border rounded-md mb-4 bg-red-50 border-red-200";
+            correct.value = false;
+            results.value = output;
+          };
+
+          const setValue = (value) => {
+            text.value = value;
+          };
+
+          return {
+            text,
+            results,
+            correct,
+            checking,
+            classList,
+            onSubmit,
+            setValue,
+          };
+        }
+      </script>
+
+      <header-component></header-component>
+
+      <main class="container max-w-4xl mx-auto px-4 py-8 flex-grow">
+        <h2 class="text-2xl font-bold text-center mb-6">
+          Dutch Grammar Checker
+        </h2>
+        <p class="text-center text-gray-600 mb-8">
+          Type or paste a Dutch sentence to check its grammar
+        </p>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+          <form class="space-y-4" on-submit.prevent.stop="onSubmit()">
+            <div>
+              <label
+                for="sentence"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Dutch sentence to be checked:</label
+              >
+              <textarea
+                on-change="setValue($event.target.value)"
+                name="sentence"
+                rows="4"
+                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Type or paste your Dutch sentence here..."
+              ></textarea>
+            </div>
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                bind-disabled="!text || checking"
+                class-animate-pulse="checking"
+                class="flex space-x-2 items-center px-6 py-2 bg-blue-700 text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+              >
+                Check
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <template if="results && !checking">
+          <div class="bg-white rounded-lg shadow-md p-6 mt-4">
+            <h3 class="text-xl font-semibold mb-4">Grammar Check Results</h3>
+
+            <div bind-class-name="classList">
+              <div class="flex items-start">
+                <svg
+                  class="h-6 w-6 text-green-500 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+                <div>
+                  <template if="correct">
+                    <p class="text-green-800 font-medium">
+                      No grammar errors found!
+                    </p>
+                    <p class="text-green-700 text-sm mt-1">
+                      Your Dutch sentence appears to be grammatically correct.
+                    </p>
+                  </template>
+
+                  <template if="!correct">
+                    <p class="text-red-800 font-medium">Some grammar errors:</p>
+                    <p class="mt-1 whitespace-pre-wrap">{{ results }}</p>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </main>
+
+      <footer-component></footer-component>
+    </template>
   </body>
 </html>
