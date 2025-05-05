@@ -39,7 +39,7 @@
               ><span class="text-blue">Checker</span>
             </h1>
           </div>
-          <div>
+          <div class="sr-only">
             <p class="text-sm text-gray-500">Grammar Check Tool</p>
           </div>
         </div>
@@ -244,7 +244,9 @@
               <button
                 type="submit"
                 bind-disabled="!text || checking"
-                class="flex space-x-2 items-center px-6 py-2 bg-blue-700 text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                class-bg-blue-700="text && !checking"
+                class-bg-gray-700="!text || checking"
+                class="flex space-x-2 items-center px-6 py-2 text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
               >
                 <span>Check</span>
                 <template if="checking">
