@@ -23,6 +23,7 @@
     </script>
     <script type="module">
       import "@li3/web";
+      import "@lucide/lucide-icon";
     </script>
   </head>
   <body class="flex flex-col min-h-screen bg-gray-50">
@@ -89,6 +90,43 @@
       </footer>
     </template>
 
+    <template component="grammar-feedback">
+      <script setup>
+        import { defineProp, signal, onInit } from "@li3/web";
+        import feedback from "https://aifn.run/fn/cbb9e343-7d3a-49a4-993b-fa99124d8b32.js";
+
+        export default function () {
+          const text = defineProp("text");
+          const results = signal("");
+
+          onInit(async function () {
+            results.value = await feedback({ text: text.value });
+          });
+
+          return {
+            results,
+          };
+        }
+      </script>
+      <div
+        class="border rounded-md border-yellow-400 bg-yellow-50 p-2 flex items-start"
+      >
+        <lucide-icon
+          class="text-yellow-500 mr-2"
+          size="24"
+          icon="message-square-quote"
+        ></lucide-icon>
+        <template if="!results">
+          <lucide-icon
+            class="animate-spin text-white mr-2"
+            size="16"
+            icon="loader-circle"
+          ></lucide-icon>
+        </template>
+        <p class="whitespace-pre-wrap">{{ results }}</p>
+      </div>
+    </template>
+
     <template app>
       <script setup>
         import dutchGrammar from "https://aifn.run/fn/a1b20b81-62d1-4b4e-b943-2a0cd4025c55.js";
@@ -109,7 +147,7 @@
             }
 
             checking.value = true;
-            const output = await dutchGrammar(source);
+            const output = await dutchGrammar({ text: source });
             checking.value = false;
 
             if (output.trim().replace(/\W+/g, "").toLowerCase() === "correct") {
@@ -172,10 +210,16 @@
               <button
                 type="submit"
                 bind-disabled="!text || checking"
-                class-animate-pulse="checking"
                 class="flex space-x-2 items-center px-6 py-2 bg-blue-700 text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
               >
-                Check
+                <span>Check</span>
+                <template if="checking">
+                  <lucide-icon
+                    class="animate-spin text-white mr-2"
+                    size="16"
+                    icon="loader-circle"
+                  ></lucide-icon>
+                </template>
               </button>
             </div>
           </form>
@@ -187,20 +231,11 @@
 
             <div bind-class-name="classList">
               <div class="flex items-start">
-                <svg
-                  class="h-6 w-6 text-green-500 mr-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"
-                  ></path>
-                </svg>
+                <lucide-icon
+                  bind-class-name="'mr-2 ' + (correct ? 'text-green-500' : 'text-red-800')"
+                  size="24"
+                  prop-icon="correct ? 'check': 'notebook-pen'"
+                ></lucide-icon>
                 <div>
                   <template if="correct">
                     <p class="text-green-800 font-medium">
@@ -212,12 +247,20 @@
                   </template>
 
                   <template if="!correct">
-                    <p class="text-red-800 font-medium">Some grammar errors:</p>
+                    <p class="text-red-800 font-medium">
+                      This is the correct grammar:
+                    </p>
                     <p class="mt-1 whitespace-pre-wrap">{{ results }}</p>
                   </template>
                 </div>
               </div>
             </div>
+            <template if="!correct">
+              <grammar-feedback
+                class="block mt-2"
+                bind-text="text"
+              ></grammar-feedback>
+            </template>
           </div>
         </template>
       </main>
