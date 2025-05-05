@@ -109,24 +109,62 @@
         }
       </script>
       <div
-        class="border rounded-md border-yellow-400 bg-yellow-50 p-2 flex items-start"
+        class="border rounded-md border-yellow-400 bg-yellow-50 p-4 flex items-start"
       >
         <lucide-icon
           class="text-yellow-500 mr-2"
           size="24"
-          icon="message-square-quote"
+          bind-icon="!results ? 'loader-circle' : 'message-square-quote'"
+          class-animate-spin="!results"
         ></lucide-icon>
-        <template if="!results">
-          <lucide-icon
-            class="animate-spin text-white mr-2"
-            size="16"
-            icon="loader-circle"
-          ></lucide-icon>
-        </template>
         <p class="whitespace-pre-wrap">{{ results }}</p>
       </div>
     </template>
 
+    <template component="grammar-results">
+      <script setup>
+        import { defineProp } from "@li3/web";
+
+        export default function () {
+          const correct = defineProp("correct");
+          const results = defineProp("results");
+
+          return {
+            correct,
+            results,
+          };
+        }
+      </script>
+
+      <div
+        class="p-4 border rounded-md mb-4"
+        class-bg-green-50.border-green-200="correct"
+        class-bg-red-50.border-red-200="!correct"
+      >
+        <div class="flex items-start">
+          <lucide-icon
+            bind-class-name="'mr-2 ' + (correct ? 'text-green-500' : 'text-red-800')"
+            size="24"
+            prop-icon="correct ? 'check': 'notebook-pen'"
+          ></lucide-icon>
+          <div class="-mt-1">
+            <template if="correct">
+              <p class="text-green-800 font-medium">No grammar errors found!</p>
+              <p class="text-green-700 text-sm mt-1">
+                Your Dutch sentence appears to be grammatically correct.
+              </p>
+            </template>
+
+            <template if="!correct">
+              <p class="text-red-800 font-medium">
+                This is the correct grammar:
+              </p>
+              <p class="mt-1 whitespace-pre-wrap">{{ results }}</p>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
     <template app>
       <script setup>
         import dutchGrammar from "https://aifn.run/fn/a1b20b81-62d1-4b4e-b943-2a0cd4025c55.js";
@@ -151,15 +189,11 @@
             checking.value = false;
 
             if (output.trim().replace(/\W+/g, "").toLowerCase() === "correct") {
-              classList.value =
-                "p-4 border rounded-md mb-4 bg-green-50 border-green-200";
               correct.value = true;
               results.value = "OK";
               return;
             }
 
-            classList.value =
-              "p-4 border rounded-md mb-4 bg-red-50 border-red-200";
             correct.value = false;
             results.value = output;
           };
@@ -223,46 +257,26 @@
               </button>
             </div>
           </form>
-        </div>
+          <template if="results && !checking">
+            <div class="mt-4">
+              <h3 class="text-xl font-semibold mb-4 sr-only">
+                Grammar Check Results
+              </h3>
 
-        <template if="results && !checking">
-          <div class="bg-white rounded-lg shadow-md p-6 mt-4">
-            <h3 class="text-xl font-semibold mb-4">Grammar Check Results</h3>
+              <grammar-results
+                prop-correct="correct"
+                prop-results="results"
+              ></grammar-results>
 
-            <div bind-class-name="classList">
-              <div class="flex items-start">
-                <lucide-icon
-                  bind-class-name="'mr-2 ' + (correct ? 'text-green-500' : 'text-red-800')"
-                  size="24"
-                  prop-icon="correct ? 'check': 'notebook-pen'"
-                ></lucide-icon>
-                <div>
-                  <template if="correct">
-                    <p class="text-green-800 font-medium">
-                      No grammar errors found!
-                    </p>
-                    <p class="text-green-700 text-sm mt-1">
-                      Your Dutch sentence appears to be grammatically correct.
-                    </p>
-                  </template>
-
-                  <template if="!correct">
-                    <p class="text-red-800 font-medium">
-                      This is the correct grammar:
-                    </p>
-                    <p class="mt-1 whitespace-pre-wrap">{{ results }}</p>
-                  </template>
-                </div>
-              </div>
+              <template if="!correct">
+                <grammar-feedback
+                  class="block mt-2"
+                  prop-text="text"
+                ></grammar-feedback>
+              </template>
             </div>
-            <template if="!correct">
-              <grammar-feedback
-                class="block mt-2"
-                bind-text="text"
-              ></grammar-feedback>
-            </template>
-          </div>
-        </template>
+          </template>
+        </div>
       </main>
 
       <footer-component></footer-component>
