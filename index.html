@@ -25,6 +25,40 @@
       import "@li3/web";
       import "@lucide/lucide-icon";
     </script>
+    <style>
+      :root {
+        --dutch-orange: #fb923c;
+        --dutch-red: #ad1d25;
+        --dutch-white: #ffffff;
+        --dutch-blue: #1e4785;
+      }
+      .text-orange {
+        color: var(--dutch-orange);
+      }
+      .text-blue {
+        color: var(--dutch-blue);
+      }
+      .text-red {
+        color: var(--dutch-red);
+      }
+      .bg-orange {
+        background-color: var(--dutch-orange);
+      }
+      .bg-dutch-blue {
+        background-color: var(--dutch-blue);
+      }
+      .dutch-gradient {
+        background: linear-gradient(
+          90deg,
+          var(--dutch-red) 0%,
+          var(--dutch-red) 33%,
+          var(--dutch-white) 33%,
+          var(--dutch-white) 66%,
+          var(--dutch-blue) 67%,
+          var(--dutch-blue) 100%
+        );
+      }
+    </style>
   </head>
   <body class="flex flex-col min-h-screen bg-gray-50">
     <template component="header-component">
@@ -43,37 +77,6 @@
             <p class="text-sm text-gray-500">Grammar Check Tool</p>
           </div>
         </div>
-        <style>
-          :root {
-            --dutch-orange: #fb923c;
-            --dutch-red: #ad1d25;
-            --dutch-white: #ffffff;
-            --dutch-blue: #1e4785;
-          }
-          .text-orange {
-            color: var(--dutch-orange);
-          }
-          .text-blue {
-            color: var(--dutch-blue);
-          }
-          .text-red {
-            color: var(--dutch-red);
-          }
-          .bg-orange {
-            background-color: var(--dutch-orange);
-          }
-          .dutch-gradient {
-            background: linear-gradient(
-              90deg,
-              var(--dutch-red) 0%,
-              var(--dutch-red) 33%,
-              var(--dutch-white) 33%,
-              var(--dutch-white) 66%,
-              var(--dutch-blue) 67%,
-              var(--dutch-blue) 100%
-            );
-          }
-        </style>
       </header>
     </template>
 
@@ -242,7 +245,7 @@
           <div class="flex justify-end">
             <button
               type="submit"
-              class-bg-blue-700="text && !checking"
+              class-bg-dutch-blue="text && !checking"
               class-bg-gray-700="!text || checking"
               class="flex space-x-2 items-center px-6 py-2 text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             >
