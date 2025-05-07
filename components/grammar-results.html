@@ -1,0 +1,42 @@
+<template component="grammar-results">
+  <script setup>
+    import { defineProp } from "@li3/web";
+
+    export default function () {
+      const correct = defineProp("correct");
+      const results = defineProp("results");
+
+      return {
+        correct,
+        results,
+      };
+    }
+  </script>
+
+  <div
+    class="p-4 border rounded-md mb-4"
+    class-bg-green-50.border-green-200="correct"
+    class-bg-red-50.border-red-200="!correct"
+  >
+    <div class="flex items-start">
+      <lucide-icon
+        bind-class-name="'mr-2 ' + (correct ? 'text-green-500' : 'text-red-800')"
+        size="24"
+        prop-icon="correct ? 'check': 'notebook-pen'"
+      ></lucide-icon>
+      <div class="-mt-1">
+        <template if="correct">
+          <p class="text-green-800 font-medium">No grammar errors found!</p>
+          <p class="text-green-700 text-sm mt-1">
+            Your Dutch sentence appears to be grammatically correct.
+          </p>
+        </template>
+
+        <template if="!correct">
+          <p class="text-red-800 font-medium">This is the correct grammar:</p>
+          <p class="mt-1 whitespace-pre-wrap">{{ results }}</p>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

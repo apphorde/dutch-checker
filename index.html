@@ -11,7 +11,7 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/index.css" />
+    <link rel="stylesheet" href="/index.css" />
     <script type="importmap">
       {
         "imports": {
@@ -24,232 +24,15 @@
     <script type="module">
       import "@li3/web";
       import "@lucide/lucide-icon";
+      import { load } from "@li3/web";
+
+      await load("./components/x-header.html");
+      await load("./components/x-footer.html");
+      await load("./components/grammar-feedback.html");
+      await load("./components/grammar-results.html");
     </script>
-    <style>
-      :root {
-        --dutch-orange: #fb923c;
-        --dutch-red: #ad1d25;
-        --dutch-white: #ffffff;
-        --dutch-blue: #1e4785;
-      }
-      .text-orange {
-        color: var(--dutch-orange);
-      }
-      .text-blue {
-        color: var(--dutch-blue);
-      }
-      .text-red {
-        color: var(--dutch-red);
-      }
-      .bg-orange {
-        background-color: var(--dutch-orange);
-      }
-      .bg-dutch-blue {
-        background-color: var(--dutch-blue);
-      }
-      .dutch-gradient {
-        background: linear-gradient(
-          var(--dutch-red) 0%,
-          var(--dutch-red) 33%,
-          var(--dutch-white) 33%,
-          var(--dutch-white) 66%,
-          var(--dutch-blue) 67%,
-          var(--dutch-blue) 100%
-        );
-      }
-    </style>
   </head>
   <body class="flex flex-col min-h-screen bg-gray-50">
-    <template component="header-component">
-      <header class="w-full py-4 border-b border-gray-200 bg-white shadow-sm">
-        <div
-          class="container max-w-4xl mx-auto px-4 flex justify-between items-center"
-        >
-          <div class="flex items-center space-x-2">
-            <div class="w-8 h-6 rounded-sm shadow-md dutch-gradient"></div>
-            <h1 class="text-2xl font-bold">
-              <span class="text-red">Dutch</span
-              ><span class="text-blue">Checker</span>
-            </h1>
-          </div>
-          <div class="sr-only">
-            <p class="text-sm text-gray-500">Grammar Check Tool</p>
-          </div>
-        </div>
-      </header>
-    </template>
-
-    <template component="footer-component">
-      <footer class="w-full py-4 border-t border-gray-200 bg-white mt-auto">
-        <div class="container max-w-4xl mx-auto px-4">
-          <div class="flex flex-col sm:flex-row justify-between items-center">
-            <p class="text-sm text-gray-500">© 2025 DutchChecker</p>
-            <p class="text-sm text-gray-500 mt-2 sm:mt-0">
-              Check your Dutch grammar instantly
-            </p>
-          </div>
-        </div>
-      </footer>
-    </template>
-
-    <template component="sidebar-component">
-      <div class="flex flex-1 flex-col bg-white">
-        <div class="flex w-full py-24 justify-between px-24">
-          <div class="flex flex-1 flex-col justify-center">
-            <div class="flex flex-row gap-5">
-              <p
-                class="false font-medium text-dark-grey text-xl font-medium leading-[32px] tracking-[-0.32px]"
-              >
-                Feedback
-              </p>
-            </div>
-          </div>
-
-          <button on-click="onClose()">&times;</button>
-        </div>
-
-        <div
-          class="hide-scrollbar relative flex h-[100vh] min-h-[300px] flex-col justify-between overflow-x-hidden overflow-y-scroll lg:pb-80"
-        >
-          <div>
-            <div class="lg:p-24">
-              <div
-                class="bg-white mx-16 mb-16 rounded-2xl p-16 lg:mx-0 lg:rounded-none lg:p-0"
-              >
-                <div class="flex items-center justify-between">
-                  <div class="mx-0 h-24 w-24 rounded-full bg-orange1"></div>
-                </div>
-                <div
-                  class="h-1 bg-light-grey-3 my-16 lg:my-24 !bg-light-grey-10 undefined"
-                ></div>
-                <div class="flex flex-col gap-4">
-                  <p
-                    class="false text-base leading-[24px] font-medium tracking-[-0.20px] font-medium text-dark-grey !text-xs text-dark-grey-5"
-                  >
-                    Your message
-                  </p>
-                  <p
-                    class="false text-base leading-[24px] font-medium tracking-[-0.20px] font-medium text-dark-grey max-w-full whitespace-normal break-words"
-                  >
-                    {{text}}
-                  </p>
-                </div>
-                <div
-                  class="h-1 bg-light-grey-3 my-16 !bg-light-grey-10 undefined"
-                ></div>
-                <div class="flex flex-col gap-4">
-                  <p
-                    class="false text-base leading-[24px] font-medium tracking-[-0.20px] font-medium text-dark-grey !text-xs text-dark-grey-5"
-                  >
-                    Corrected message
-                  </p>
-                  <p
-                    class="false text-base leading-[24px] font-medium tracking-[-0.20px] font-medium text-dark-grey max-w-full whitespace-normal break-words"
-                  >
-                    {{correctedText}}
-                  </p>
-                </div>
-              </div>
-              <div class="max-lg:hidden">
-                <div
-                  class="h-1 bg-light-grey-3 my-24 !bg-light-grey-10 undefined"
-                ></div>
-              </div>
-              <div
-                class="mx-16 rounded-2xl bg-orange1 p-16 lg:mx-0 max-lg:mb-16"
-              >
-                <p
-                  class="false text-base leading-[24px] font-medium tracking-[-0.20px] font-medium text-dark-grey mb-12 !text-xs text-white"
-                >
-                  Explanation
-                </p>
-                <p
-                  class="false text-base leading-[24px] font-medium tracking-[-0.20px] font-medium text-dark-grey max-w-full whitespace-normal break-words text-white"
-                >
-                  {{feedback}}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
-
-    <template component="grammar-feedback">
-      <script setup>
-        import { defineProp, signal, onInit } from "@li3/web";
-        import feedback from "https://aifn.run/fn/cbb9e343-7d3a-49a4-993b-fa99124d8b32.js";
-
-        export default function () {
-          const text = defineProp("text");
-          const results = signal("");
-
-          onInit(async function () {
-            results.value = await feedback({ text: text.value });
-          });
-
-          return {
-            results,
-          };
-        }
-      </script>
-      <div
-        class="border rounded-md border-yellow-400 bg-yellow-50 p-4 flex items-start"
-      >
-        <lucide-icon
-          class="text-yellow-500 mr-2"
-          size="24"
-          bind-icon="!results ? 'loader-circle' : 'message-square-quote'"
-          class-animate-spin="!results"
-        ></lucide-icon>
-        <p class="whitespace-pre-wrap">{{ results }}</p>
-      </div>
-    </template>
-
-    <template component="grammar-results">
-      <script setup>
-        import { defineProp } from "@li3/web";
-
-        export default function () {
-          const correct = defineProp("correct");
-          const results = defineProp("results");
-
-          return {
-            correct,
-            results,
-          };
-        }
-      </script>
-
-      <div
-        class="p-4 border rounded-md mb-4"
-        class-bg-green-50.border-green-200="correct"
-        class-bg-red-50.border-red-200="!correct"
-      >
-        <div class="flex items-start">
-          <lucide-icon
-            bind-class-name="'mr-2 ' + (correct ? 'text-green-500' : 'text-red-800')"
-            size="24"
-            prop-icon="correct ? 'check': 'notebook-pen'"
-          ></lucide-icon>
-          <div class="-mt-1">
-            <template if="correct">
-              <p class="text-green-800 font-medium">No grammar errors found!</p>
-              <p class="text-green-700 text-sm mt-1">
-                Your Dutch sentence appears to be grammatically correct.
-              </p>
-            </template>
-
-            <template if="!correct">
-              <p class="text-red-800 font-medium">
-                This is the correct grammar:
-              </p>
-              <p class="mt-1 whitespace-pre-wrap">{{ results }}</p>
-            </template>
-          </div>
-        </div>
-      </div>
-    </template>
     <template app>
       <script setup>
         import dutchGrammar from "https://aifn.run/fn/a1b20b81-62d1-4b4e-b943-2a0cd4025c55.js";
@@ -263,7 +46,7 @@
           const checking = signal(false);
 
           const onSubmit = async () => {
-            const source = text.value;
+            const source = text.value.trim();
 
             if (!source.trim()) {
               return;
@@ -273,7 +56,10 @@
             const output = await dutchGrammar({ text: source });
             checking.value = false;
 
-            if (output.trim().replace(/\W+/g, "").toLowerCase() === "correct") {
+            if (
+              output.trim().replace(/\W+/g, "").toLowerCase() === "correct" ||
+              output.trim() === source
+            ) {
               correct.value = true;
               results.value = "OK";
               return;
@@ -299,7 +85,7 @@
         }
       </script>
 
-      <header-component></header-component>
+      <x-header></x-header>
 
       <main class="container max-w-4xl mx-auto px-4 py-8 flex-grow">
         <h2 class="text-2xl font-bold text-center mb-6">
@@ -364,7 +150,7 @@
         </template>
       </main>
 
-      <footer-component></footer-component>
+      <x-footer></x-footer>
     </template>
   </body>
 </html>

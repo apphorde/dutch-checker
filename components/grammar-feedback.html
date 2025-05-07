@@ -1,0 +1,30 @@
+<template component="grammar-feedback">
+  <script setup>
+    import { defineProp, signal, onInit } from "@li3/web";
+    import feedback from "https://aifn.run/fn/cbb9e343-7d3a-49a4-993b-fa99124d8b32.js";
+
+    export default function () {
+      const text = defineProp("text");
+      const results = signal("");
+
+      onInit(async function () {
+        results.value = await feedback({ text: text.value });
+      });
+
+      return {
+        results,
+      };
+    }
+  </script>
+  <div
+    class="border rounded-md border-yellow-400 bg-yellow-50 p-4 flex items-start"
+  >
+    <lucide-icon
+      class="text-yellow-500 mr-2"
+      size="24"
+      bind-icon="!results ? 'loader-circle' : 'message-square-quote'"
+      class-animate-spin="!results"
+    ></lucide-icon>
+    <p class="whitespace-pre-wrap -mt-1">{{ results }}</p>
+  </div>
+</template>

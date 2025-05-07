@@ -1,0 +1,31 @@
+:root {
+  --dutch-orange: #fb923c;
+  --dutch-red: #ad1d25;
+  --dutch-white: #ffffff;
+  --dutch-blue: #1e4785;
+}
+.text-orange {
+  color: var(--dutch-orange);
+}
+.text-blue {
+  color: var(--dutch-blue);
+}
+.text-red {
+  color: var(--dutch-red);
+}
+.bg-orange {
+  background-color: var(--dutch-orange);
+}
+.bg-dutch-blue {
+  background-color: var(--dutch-blue);
+}
+.dutch-gradient {
+  background: linear-gradient(
+    var(--dutch-red) 0%,
+    var(--dutch-red) 33%,
+    var(--dutch-white) 33%,
+    var(--dutch-white) 66%,
+    var(--dutch-blue) 67%,
+    var(--dutch-blue) 100%
+  );
+}
