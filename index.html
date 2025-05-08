@@ -87,7 +87,7 @@
 
         <text-form
           prop-loading="checking"
-          on-submit="onSubmit($event)"
+          on-submit="onSubmit($event.detail)"
         ></text-form>
 
         <template if="results && !checking">
