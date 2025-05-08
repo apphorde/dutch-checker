@@ -46,7 +46,7 @@
           const checking = signal(false);
           const correct = effect(
             () =>
-              results.value.trim() === source ||
+              results.value.trim() === text.value ||
               results.value.trim().replace(/\W+/g, "").toLowerCase() ===
                 "correct"
           );
