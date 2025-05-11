@@ -1,0 +1,25 @@
+<template component="message-list">
+  <template if="messages.length">
+    <div class="my-4 flex h-fit min-h-full flex-col gap-4">
+      <template for="[message, index] of messages">
+        <div
+          attr-id="index"
+          attr-role="message.role"
+          class-self-start.bg-gray-100.text-black="message.role === 'assistant'"
+          class-self-end.bg-blue-500.text-white="message.role === 'user'"
+          class="max-w-[80%] rounded-xl px-3 py-2 text-sm"
+        >
+          {{message.content}}
+        </div>
+      </template>
+    </div>
+  </template>
+
+  <script setup>
+    import { defineProp } from "@li3/web";
+
+    export default function () {
+      const messages = defineProp("messages", { default: () => [] });
+    }
+  </script>
+</template>

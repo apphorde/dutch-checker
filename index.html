@@ -28,17 +28,29 @@
 
       await load("./components/x-header.html");
       await load("./components/x-footer.html");
+      await load("./components/x-chat.html");
       await load("./components/grammar-feedback.html");
       await load("./components/grammar-results.html");
       await load("./components/text-form.html");
+      await load("./components/message-list.html");
     </script>
   </head>
 
   <body class="flex flex-col min-h-screen bg-gray-50">
     <template app>
       <script setup>
-        import dutchGrammar from 'https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js';
+        import dutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js";
         import { defineProp, defineEvent, signal, effect } from "@li3/web";
+        import { useAsyncFetcher } from "@li3/use";
+
+        function useChat() {
+          const history = signal([]);
+          const { fetch, data, error, loading } = useAsyncFetcher((message) => {
+            history.value = [...history.value, { role: "user", message }];
+          });
+
+          return { history, error, loading };
+        }
 
         export default function () {
           const text = signal("");
