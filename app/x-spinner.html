@@ -1,0 +1,18 @@
+<template component="x-spinner">
+  <template if="loading">
+    <div class="py-2 flex items-center justify-center">
+      <lucide-icon
+        class="animate-spin text-orange"
+        size="16"
+        icon="loader-circle"
+      ></lucide-icon>
+    </div>
+  </template>
+  <script setup>
+    import { defineProp } from "@li3/web";
+
+    export default function () {
+      defineProp("loading");
+    }
+  </script>
+</template>

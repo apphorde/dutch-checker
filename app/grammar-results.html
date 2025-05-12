@@ -1,0 +1,60 @@
+<template component="grammar-results">
+  <script setup>
+    import useStore from "@/store.js";
+
+    export default function () {
+      const { store, select } = useStore();
+      const text = select((s) => s.text);
+      const checking = select((s) => s.checking);
+      const correct = select((s) => s.correct);
+      const results = select((s) => s.results.trim());
+      const feedback = select((s) => s.feedback.trim());
+      const { askFeedback } = store;
+
+      return { text, checking, correct, results, feedback, askFeedback };
+    }
+  </script>
+  <div class="flex flex-col space-y-6">
+    <text-block label="Original text" prop-text="text"></text-block>
+
+    <x-spinner class-hidden="!checking" prop-loading="checking"></x-spinner>
+
+    <template if="results && !correct">
+      <text-block label="Corrected text" prop-text="results"></text-block>
+    </template>
+
+    <template if="results && !correct && !feedback">
+      <div class="flex items-center justify-center">
+        <button
+          class="px-4 py-2 bg-red border text-white rounded-md flex items-center space-x-2"
+          on-click="askFeedback()"
+        >
+          <lucide-icon icon="message-circle-question"></lucide-icon>
+          <span>Get feedback</span>
+        </button>
+      </div>
+    </template>
+
+    <template if="results && !correct && feedback">
+      <text-block label="Suggestions" prop-text="feedback"></text-block>
+    </template>
+
+    <template if="results && correct">
+      <div
+        class="p-4 border rounded-md mb-4 relative flex space-x-3 bg-green-50 border-green-200"
+      >
+        <lucide-icon
+          class="text-green-500 border-green-200"
+          size="24"
+          icon="check"
+        ></lucide-icon>
+        <div>
+          <p class="text-green-800 font-medium">No grammar errors found!</p>
+          <p class="text-green-700 text-sm mt-1">
+            Good job! Your Dutch sentence appears to be grammatically correct.
+          </p>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>

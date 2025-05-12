@@ -17,7 +17,8 @@
         "imports": {
           "@li3/": "https://--li3.static.apphor.de/",
           "@sodium/": "https://--sodium.static.apphor.de/",
-          "@lucide/": "https://--lucide.static.apphor.de/"
+          "@lucide/": "https://--lucide.static.apphor.de/",
+          "@/": "/app/"
         }
       }
     </script>
@@ -26,67 +27,19 @@
       import "@lucide/lucide-icon";
       import { load } from "@li3/web";
 
-      await load("./components/x-header.html");
-      await load("./components/x-footer.html");
-      await load("./components/x-chat.html");
-      await load("./components/grammar-feedback.html");
-      await load("./components/grammar-results.html");
-      await load("./components/text-form.html");
-      await load("./components/message-list.html");
+      await load("./app/x-header.html");
+      await load("./app/x-footer.html");
+      await load("./app/text-form.html");
+      await load("./app/text-block.html");
+      await load("./app/grammar-popup.html");
+      await load("./app/grammar-results.html");
+      await load("./app/message-list.html");
+      await load("./app/x-spinner.html");
     </script>
   </head>
 
   <body class="flex flex-col min-h-screen bg-gray-50">
     <template app>
-      <script setup>
-        import dutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js";
-        import { defineProp, defineEvent, signal, effect } from "@li3/web";
-        import { useAsyncFetcher } from "@li3/use";
-
-        function useChat() {
-          const history = signal([]);
-          const { fetch, data, error, loading } = useAsyncFetcher((message) => {
-            history.value = [...history.value, { role: "user", message }];
-          });
-
-          return { history, error, loading };
-        }
-
-        export default function () {
-          const text = signal("");
-          const results = signal("");
-          const checking = signal(false);
-          const correct = effect(
-            () =>
-              results.value.trim() === text.value ||
-              results.value.trim().replace(/\W+/g, "").toLowerCase() ===
-                "correct"
-          );
-
-          effect(async () => {
-            const source = text.value;
-
-            if (!source) {
-              return;
-            }
-
-            checking.value = true;
-            results.value = await dutchGrammar({ text: source });
-            checking.value = false;
-          });
-
-          const onSubmit = async (source) => (text.value = source);
-
-          return {
-            text,
-            results,
-            correct,
-            checking,
-            onSubmit,
-          };
-        }
-      </script>
-
       <x-header></x-header>
 
       <main class="container max-w-4xl mx-auto px-4 py-8 flex-grow">
@@ -97,30 +50,9 @@
           Type or paste a Dutch sentence to check its grammar
         </p>
 
-        <text-form
-          prop-loading="checking"
-          on-submit="onSubmit($event.detail)"
-        ></text-form>
-
-        <template if="results && !checking">
-          <div class="mt-4">
-            <h3 class="text-xl font-semibold mb-4 sr-only">
-              Grammar Check Results
-            </h3>
-
-            <grammar-results
-              prop-correct="correct"
-              prop-results="results"
-            ></grammar-results>
-
-            <template if="!correct">
-              <grammar-feedback
-                class="block mt-2"
-                prop-text="text"
-              ></grammar-feedback>
-            </template>
-          </div>
-        </template>
+        <text-form></text-form>
+        <message-list></message-list>
+        <grammar-popup></grammar-popup>
       </main>
 
       <x-footer></x-footer>

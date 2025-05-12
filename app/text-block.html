@@ -1,0 +1,17 @@
+<template component="text-block">
+  <div>
+    <span class="block font-bold text-gray-800 text-xs pb-1 uppercase"
+      >{{label}}</span
+    >
+    <p class="whitespace-pre-wrap">{{ text }}</p>
+  </div>
+
+  <script setup>
+    import { defineProp } from "@li3/web";
+
+    export default function () {
+      defineProp("label");
+      defineProp("text");
+    }
+  </script>
+</template>

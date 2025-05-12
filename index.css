@@ -16,6 +16,9 @@
 .bg-orange {
   background-color: var(--dutch-orange);
 }
+.bg-red {
+  background-color: var(--dutch-red);
+}
 .bg-dutch-blue {
   background-color: var(--dutch-blue);
 }

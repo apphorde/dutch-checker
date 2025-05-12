@@ -9,17 +9,19 @@
           class-self-end.bg-blue-500.text-white="message.role === 'user'"
           class="max-w-[80%] rounded-xl px-3 py-2 text-sm"
         >
-          {{message.content}}
+          {{ message.content }}
         </div>
       </template>
     </div>
   </template>
 
   <script setup>
-    import { defineProp } from "@li3/web";
+    import useStore from "@/store.js";
 
     export default function () {
-      const messages = defineProp("messages", { default: () => [] });
+      const { select } = useStore();
+      const messages = select((s) => s.history || []);
+      return { messages };
     }
   </script>
 </template>
