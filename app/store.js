@@ -31,10 +31,10 @@ function factory() {
 
     checking.value = true;
     feedbackOpen.value = true;
-    // results.value = await aiDutchGrammar({ text: source });
-    results.value = await new Promise((s) =>
-      setTimeout(() => s("zij is fijn nus"), 1000)
-    );
+    results.value = await aiDutchGrammar({ text: source });
+    // results.value = await new Promise((s) =>
+    //   setTimeout(() => s("zij is fijn nus"), 1000)
+    // );
     checking.value = false;
   }
 

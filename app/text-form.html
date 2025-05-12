@@ -1,5 +1,5 @@
 <template component="text-form">
-  <form class="space-y-4" on-submit.prevent.stop="checkGrammar()">
+  <form class="space-y-4" on-submit.prevent.stop="onSubmit()">
     <div>
       <label
         for="sentence"
@@ -7,14 +7,24 @@
         >Dutch sentence to be checked:</label
       >
       <textarea
-        on-input="setText($event.target.value)"
+        on-input="setLocalText($event.target.value)"
+        prop-value="localText"
         name="sentence"
         rows="4"
         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Type or paste your Dutch sentence here..."
       ></textarea>
     </div>
-    <div class="flex justify-end">
+    <div class="flex justify-end space-x-2">
+      <template if="supported">
+        <button
+          class="bg-white border border-gray-600 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+          class-animate-pulse="recording"
+          on-click="onRecord()"
+        >
+          Record
+        </button>
+      </template>
       <button
         type="submit"
         class="bg-dutch-blue flex space-x-2 items-center px-6 py-2 text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
@@ -25,17 +35,66 @@
   </form>
 
   <script setup>
-    import { defineEvent, defineProp, signal } from "@li3/web";
+    import { signal, effect } from "@li3/web";
     import { useMicrophone } from "https://transcriber.apphor.de/useMicrophone.mjs";
+    import vtt from "https://vtt.jsfn.run/index.mjs";
     import useStore from "@/store.js";
 
     export default function () {
+      // const text = select((s) => s.text);
       const { store, select } = useStore();
-      const text = select((s) => s.text);
-      const checking = select((s) => s.checking);
+      const localText = signal("");
+      const converting = signal("");
+      const recording = signal("");
       const { checkGrammar, setText } = store;
 
-      return { checkGrammar, setText, checking, text };
+      function setLocalText(v) {
+        localText.value = v;
+      }
+
+      function onSubmit() {
+        if (!localText.value) return;
+
+        setText(localText.value);
+        localText.value = "";
+        checkGrammar();
+      }
+
+      const { supported, audio, start, stop } = useMicrophone();
+
+      async function onRecord() {
+        if (!supported.value) return;
+
+        if (recording.value) {
+          stop();
+          recording.value = false;
+          return;
+        }
+
+        start();
+        recording.value = true;
+      }
+
+      effect(async () => {
+        if (!audio.value) {
+          return;
+        }
+
+        // playbackUrl.value = URL.createObjectURL(audio.value);
+        converting.value = true;
+        localText.value = await vtt(audio.value);
+        converting.value = false;
+      });
+
+      return {
+        onSubmit,
+        setLocalText,
+        onRecord,
+        converting,
+        recording,
+        localText,
+        supported,
+      };
     }
   </script>
 </template>
