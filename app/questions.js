@@ -5,7 +5,7 @@ Wat vindt u van uw buren? En hoe lang kent u ze al?
 Wat kunt u goed? Vertel ook hoe vaak u dit doet.
 Wat is de mooiste plaats waar u geweest bent? Vertel ook hoe vaak u hier bent geweest.
 Wat vindt u van het weer in Nederland? Vertel ook hoe het weer is in uw eigen land.
-Wat kunt u goed? Vertel ook waar u dat doet. Ik kan goed koken. Ik doe dat thuis.
+Wat kunt u goed? Vertel ook waar u dat doet.
 Wat vindt u leuk om te koken? Vertel ook hoe vaak u dat kookt.
 Wat deed u gisteren? Vertel ook hoe laat u dat deed.
 Wat leest u graag? Zeg ook hoe vaak u leest.

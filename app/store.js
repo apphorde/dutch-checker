@@ -1,4 +1,3 @@
-// import { createStore } from "@li3/store";
 import { signal, effect } from "@li3/reactive";
 import { onDestroy } from "@li3/web";
 import aiDutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js";
@@ -13,6 +12,15 @@ function factory() {
   const feedbackOpen = signal(false);
   const results = signal("");
   const history = signal(JSON.parse(localStorage.getItem("history") || "[]"));
+  const suggestions = signal(null);
+
+  effect(async () => {
+    const input = text.value;
+    const correction = results.value;
+
+    suggestions.value =
+      input && correction ? (await Diff.diffWords(input, correction)).filter(s => !s.removed) : null;
+  });
 
   const correct = effect(() => {
     const input = text.value;
@@ -86,6 +94,7 @@ function factory() {
     feedbackOpen,
     feedbackLoading,
     history,
+    suggestions,
   };
 
   const methods = {

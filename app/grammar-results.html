@@ -10,6 +10,7 @@
       const results = select((s) => s.results.trim());
       const feedback = select((s) => s.feedback.trim());
       const feedbackLoading = select((s) => s.feedbackLoading);
+      const suggestions = select((s) => s.suggestions);
       const { askFeedback } = store;
 
       return {
@@ -19,6 +20,7 @@
         results,
         feedback,
         feedbackLoading,
+        suggestions,
         askFeedback,
       };
     }
@@ -29,7 +31,10 @@
     <x-spinner class-hidden="!checking" prop-loading="checking"></x-spinner>
 
     <template if="results && !correct">
-      <text-block label="Corrected text" prop-text="results"></text-block>
+      <text-block
+        label="Corrected text"
+        prop-suggestions="suggestions"
+      ></text-block>
     </template>
 
     <template if="results && !correct && !feedback">

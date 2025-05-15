@@ -3,7 +3,16 @@
     <span class="block font-medium text-gray-500 text-xs pb-1 uppercase"
       >{{label}}</span
     >
-    <p class="whitespace-pre-wrap">{{ text }}</p>
+    <template if="text">
+      <p class="whitespace-pre-wrap">{{ text }}</p>
+    </template>
+    <template if="suggestions">
+      <template for="next of suggestions"
+        ><span class-bg-green-100.px-1="next.added"
+          >{{next.value}}</span
+        ></template
+      >
+    </template>
   </div>
 
   <script setup>
@@ -12,6 +21,7 @@
     export default function () {
       defineProp("label");
       defineProp("text");
+      defineProp("suggestions");
     }
   </script>
 </template>
