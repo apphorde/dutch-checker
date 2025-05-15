@@ -57,6 +57,8 @@ function factory() {
 
     checking.value = true;
     feedbackOpen.value = true;
+    correct.value = false;
+    results.value = '';
     results.value = await aiDutchGrammar({ text: source });
     checking.value = false;
   }
