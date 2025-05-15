@@ -2,6 +2,7 @@ import { signal, effect } from "@li3/reactive";
 import { onDestroy } from "@li3/web";
 import aiDutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js";
 import aiFeedback from "https://aifn.run/fn/c4a13509-1700-4da9-8b48-c936328f8d38.js";
+import dutchSuggestion from "https://aifn.run/fn/1be3cd02-19b5-41a9-948d-e41cbb819a42.js";
 import questions from "@/questions.js";
 
 function factory() {
@@ -19,7 +20,9 @@ function factory() {
     const correction = results.value;
 
     suggestions.value =
-      input && correction ? (await Diff.diffWords(input, correction)).filter(s => !s.removed) : null;
+      input && correction
+        ? (await Diff.diffWords(input, correction)).filter((s) => !s.removed)
+        : null;
   });
 
   const correct = effect(() => {
@@ -39,6 +42,25 @@ function factory() {
 
   function setText(newText) {
     text.value = newText;
+  }
+
+  async function suggestAnswer() {
+    const lastMessage = history.value.at(-1);
+    const question = lastMessage?.contents;
+
+    if (!lastMessage?.role !== "assistant" || !question) {
+      return;
+    }
+
+    const suggestion = await dutchSuggestion({ text: question });
+
+    if (suggestion) {
+      history.value = [
+        ...history.value,
+        { role: "user", contents: suggestion },
+      ];
+      setText(suggestion);
+    }
   }
 
   function newQuestion() {
@@ -105,6 +127,7 @@ function factory() {
     addToHistory,
     newQuestion,
     removeMessage,
+    suggestAnswer,
   };
 
   return { state, methods };

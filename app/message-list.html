@@ -29,7 +29,14 @@
       </template>
       <span ref="lastMessage"></span>
     </div>
-    <div class="flex items-center justify-end">
+    <div class="flex items-center justify-end space-x-2">
+      <button
+        on-click="suggestAnswer()"
+        class="flex items-center space-x-2 p-2"
+      >
+        <lucide-icon size="16" icon="sparkles"></lucide-icon>
+        <span class="text-sm">Suggest an answer</span>
+      </button>
       <button on-click="newQuestion()" class="flex items-center space-x-2 p-2">
         <lucide-icon size="16" icon="circle-help"></lucide-icon>
         <span class="text-sm">Ask me anything</span>
@@ -44,7 +51,7 @@
     export default function () {
       const lastMessage = templateRef("lastMessage");
       const { select, store } = useStore();
-      const { setText, newQuestion, removeMessage } = store;
+      const { setText, newQuestion, suggestAnswer, removeMessage } = store;
       const messages = select((s) => s.history || []);
       const scrollDown = () => lastMessage.value?.scrollIntoView();
 
@@ -54,7 +61,7 @@
         }
       });
 
-      return { messages, setText, newQuestion, removeMessage };
+      return { messages, setText, newQuestion, suggestAnswer, removeMessage };
     }
   </script>
 </template>
