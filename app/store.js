@@ -41,7 +41,6 @@ function factory() {
     const v = text.value;
     if (!history.value.find((h) => h.contents === v)) {
       history.value = [...history.value, { role: "user", contents: v }];
-      newQuestion();
     }
   }
 
