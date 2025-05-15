@@ -1,5 +1,5 @@
 <template component="text-form">
-  <form class="space-y-4" on-submit.prevent.stop="onSubmit()">
+  <form class="flex flex-col space-y-4" on-submit.prevent.stop="onSubmit()">
     <div>
       <label
         for="sentence"
@@ -10,18 +10,19 @@
         on-input="setText($event.target.value)"
         prop-value="text"
         name="sentence"
-        rows="4"
+        bind-rows="text.split('\n').length"
         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Type in, record or paste your Dutch sentence here"
       ></textarea>
     </div>
-    <audio prop-src="playbackUrl" ref="player"></audio>
+
     <div class="flex justify-end space-x-2">
+      <audio prop-src="playbackUrl" ref="player"></audio>
       <template if="supported">
         <template if="playbackUrl">
           <button
             type="button"
-            class="bg-white border border-gray-600 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+            class="bg-white border border-gray-300 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             on-click="onPlayPause()"
           >
             <lucide-icon
@@ -33,7 +34,7 @@
         </template>
         <button
           type="button"
-          class="bg-white border border-gray-600 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+          class="bg-white border border-gray-300 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
           on-click="onRecord()"
         >
           <lucide-icon
@@ -51,8 +52,6 @@
       </button>
     </div>
   </form>
-
-  
 
   <script setup>
     import { signal, effect, templateRef } from "@li3/web";

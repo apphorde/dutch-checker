@@ -38,25 +38,24 @@
     </script>
   </head>
 
-  <body class="flex flex-col min-h-screen bg-gray-50">
+  <body class="overflow-hidden h-screen bg-gray-50 flex flex-col">
     <template app>
-      <x-header></x-header>
+      <x-header class="contents"></x-header>
 
-      <main class="container max-w-4xl mx-auto px-4 py-8 flex-grow">
-        <h2 class="text-2xl font-bold text-center mb-6">
-          Dutch Grammar Checker
-        </h2>
-        <p class="text-center text-gray-600 mb-8 sr-only">
+      <main
+        class="container max-w-4xl mx-auto flex flex-col my-2 border bg-white rounded-xl flex-1 overflow-hidden"
+      >
+        <p class="sr-only">
           Type or paste a Dutch sentence to check its grammar
         </p>
 
-        <text-form></text-form>
-        <message-list></message-list>
-
-        <grammar-popup></grammar-popup>
+        <text-form class="p-4 flex-1"></text-form>
+        <message-list class="p-4 overflow-hidden"></message-list>
       </main>
 
-      <x-footer></x-footer>
+      <!-- <x-footer></x-footer> -->
+
+      <grammar-popup></grammar-popup>
     </template>
   </body>
 </html>
