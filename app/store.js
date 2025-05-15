@@ -29,9 +29,8 @@ function factory() {
   }
 
   function newQuestion() {
-    const next = questions.find((q) =>
-      history.value.find((h) => h.contents !== q)
-    );
+    const used = history.value.map((h) => h.contents);
+    const next = questions.find((q) => !used.includes(q));
 
     if (next) {
       history.value = [...history.value, { role: "assistant", contents: next }];
