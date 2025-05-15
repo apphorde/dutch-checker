@@ -2,14 +2,17 @@
   <div class="flex flex-col h-full">
     <div class="overflow-y-scroll flex-grow">
       <template if="messages.length">
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
           <template for="message of messages">
-            <div class="flex items-center gap-2">
+            <div
+              class="flex items-center gap-2"
+              class-justify-end="message.role === 'user'"
+            >
               <button
                 on-click="setText(message.contents)"
-                class="rounded px-3 py-2 text-sm"
-                class-self-start.bg-gray-100.text-black.border="message.role === 'assistant'"
-                class-self-end.bg-blue-500.text-white="message.role === 'user' || !message.role"
+                class="rounded px-3 py-1 text-sm"
+                class-bg-gray-100.text-black.border="message.role === 'assistant'"
+                class-bg-blue-500.text-white="message.role === 'user' || !message.role"
                 style-max-width="'80%'"
               >
                 {{ message.contents }}
