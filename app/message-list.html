@@ -1,27 +1,36 @@
 <template component="message-list">
   <template if="messages.length">
     <div class="my-4 flex h-fit min-h-full flex-col gap-4">
-      <template for="[message, index] of messages">
-        <div
-          attr-id="index"
-          attr-role="message.role"
+      <template for="message of messages">
+        <button
+          on-click="setText(message.contents)"
           class-self-start.bg-gray-100.text-black="message.role === 'assistant'"
-          class-self-end.bg-blue-500.text-white="message.role === 'user'"
-          class="max-w-[80%] rounded-xl px-3 py-2 text-sm"
+          class-self-end.bg-blue-500.text-white="message.role === 'user' || !message.role"
+          class="border rounded-xl px-3 py-2 text-sm"
+          style-max-width="'80%'"
         >
-          {{ message.content }}
-        </div>
+          {{ message.contents }}
+        </button>
       </template>
     </div>
   </template>
+
+  <div class="flex items-center justify-end">
+    <button on-click="newQuestion()" class="flex items-center space-x-2 p-2">
+      <lucide-icon prop-size="12" icon="circle-help"></lucide-icon>
+      <span class="text-sm">Ask me anything</span>
+    </button>
+  </div>
 
   <script setup>
     import useStore from "@/store.js";
 
     export default function () {
-      const { select } = useStore();
+      const { select, store } = useStore();
+      const { setText, newQuestion } = store;
       const messages = select((s) => s.history || []);
-      return { messages };
+
+      return { messages, setText, newQuestion };
     }
   </script>
 </template>

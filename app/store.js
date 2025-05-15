@@ -3,6 +3,7 @@ import { signal, effect } from "@li3/reactive";
 import { onDestroy } from "@li3/web";
 import aiDutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js";
 import aiFeedback from "https://aifn.run/fn/c4a13509-1700-4da9-8b48-c936328f8d38.js";
+import questions from "@/questions.js";
 
 function factory() {
   const text = signal("");
@@ -11,6 +12,7 @@ function factory() {
   const feedbackLoading = signal(false);
   const feedbackOpen = signal(false);
   const results = signal("");
+  const history = signal(JSON.parse(localStorage.getItem("history") || "[]"));
 
   const correct = effect(
     () =>
@@ -18,8 +20,30 @@ function factory() {
       results.value.trim().replace(/\W+/g, "").toLowerCase() === "correct"
   );
 
+  effect(() => {
+    localStorage.setItem("history", JSON.stringify(history.value));
+  });
+
   function setText(newText) {
     text.value = newText;
+  }
+
+  function newQuestion() {
+    const next = questions.find((q) =>
+      history.value.find((h) => h.contents !== q)
+    );
+
+    if (next) {
+      history.value = [...history.value, { role: "assistant", contents: next }];
+    }
+  }
+
+  function addToHistory() {
+    const v = text.value;
+    if (!history.value.find((h) => h.contents === v)) {
+      history.value = [...history.value, { role: "user", contents: v }];
+      newQuestion();
+    }
   }
 
   async function checkGrammar() {
@@ -53,6 +77,7 @@ function factory() {
     feedback,
     feedbackOpen,
     feedbackLoading,
+    history,
   };
 
   const methods = {
@@ -60,6 +85,8 @@ function factory() {
     checkGrammar,
     askFeedback,
     toggleFeedback,
+    addToHistory,
+    newQuestion,
   };
 
   return { state, methods };

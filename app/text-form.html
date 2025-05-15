@@ -7,8 +7,8 @@
         >Dutch sentence to be checked:</label
       >
       <textarea
-        on-input="setLocalText($event.target.value)"
-        prop-value="localText"
+        on-input="setText($event.target.value)"
+        prop-value="text"
         name="sentence"
         rows="4"
         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -52,6 +52,8 @@
     </div>
   </form>
 
+  
+
   <script setup>
     import { signal, effect, templateRef } from "@li3/web";
     import { useMicrophone } from "https://transcriber.apphor.de/useMicrophone.mjs";
@@ -61,19 +63,15 @@
     export default function () {
       const { store, select } = useStore();
       const player = templateRef("player");
-      const localText = signal("");
       const converting = signal("");
       const playbackUrl = signal("");
       const playing = signal(false);
+      const messages = select((s) => s.history || []);
+      const text = select((s) => s.text);
       const recording = signal(false);
-      const { checkGrammar, setText } = store;
-
-      function setLocalText(v) {
-        localText.value = v;
-      }
+      const { checkGrammar, setText, addToHistory } = store;
 
       function onPlayPause() {
-        console.log(player.value);
         if (player.value?.paused) {
           player.value.play();
         } else {
@@ -83,12 +81,11 @@
         playing.value = player.value && !player.value?.paused;
       }
 
-      function onSubmit() {
-        if (!localText.value) return;
-
-        setText(localText.value);
-        localText.value = "";
-        checkGrammar();
+      async function onSubmit() {
+        if (text.value) {
+          await addToHistory();
+          await checkGrammar();
+        }
       }
 
       const { supported, audio, start, stop } = useMicrophone();
@@ -119,15 +116,16 @@
 
       return {
         onSubmit,
-        setLocalText,
         onRecord,
         onPlayPause,
         playing,
         playbackUrl,
         converting,
         recording,
-        localText,
+        setText,
+        text,
         supported,
+        messages,
       };
     }
   </script>

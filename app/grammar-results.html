@@ -9,6 +9,7 @@
       const correct = select((s) => s.correct);
       const results = select((s) => s.results.trim());
       const feedback = select((s) => s.feedback.trim());
+      const feedbackLoading = select((s) => s.feedbackLoading);
       const { askFeedback } = store;
 
       return { text, checking, correct, results, feedback, askFeedback };
@@ -29,7 +30,11 @@
           class="px-5 py-2 bg-red border text-white rounded-md flex items-center space-x-2"
           on-click="askFeedback()"
         >
-          <lucide-icon size="20" icon="message-circle-question"></lucide-icon>
+          <lucide-icon
+            size="20"
+            bind-icon="feedbackLoading ? 'loader-circle' : 'message-circle-question'"
+            class-animate-spin.text-orange="feedbackLoading"
+          ></lucide-icon>
           <span>Get feedback</span>
         </button>
       </div>
