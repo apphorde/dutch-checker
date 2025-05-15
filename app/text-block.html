@@ -7,16 +7,20 @@
       <p class="whitespace-pre-wrap">{{ text }}</p>
     </template>
     <template if="suggestions">
-      <template for="next of removed"
-        ><span class-bg-red-100.px-1="next.removed"
-          >{{next.value}}</span
-        ></template
-      >
-      <template for="next of added"
-        ><span class-bg-green-100.px-1="next.added"
-          >{{next.value}}</span
-        ></template
-      >
+      <div>
+        <template for="next of removed"
+          ><span class-bg-red-100.px-1="next.removed"
+            >{{next.value}}</span
+          ></template
+        >
+      </div>
+      <div>
+        <template for="next of added"
+          ><span class-bg-green-100.px-1="next.added"
+            >{{next.value}}</span
+          ></template
+        >
+      </div>
     </template>
   </div>
 
