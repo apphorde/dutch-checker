@@ -1,0 +1,16 @@
+{
+  "short_name": "DutchChecker",
+  "name": "DutchChecker",
+  "description": "Practice speaking Dutch with AI",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#53ac6f",
+  "background_color": "#53ac6f"
+}

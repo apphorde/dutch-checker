@@ -6,6 +6,7 @@
     <title>Dutch Grammar Checker</title>
     <meta name="description" content="Check Dutch grammar" />
     <meta name="author" content="DutchChecker" />
+    <link rel="manifest" href="/manifest.json" />
 
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
@@ -35,7 +36,7 @@
       await load("./app/grammar-results.html");
       await load("./app/message-list.html");
       await load("./app/x-spinner.html");
-      await import('https://unpkg.com/diff@8.0.1/dist/diff.js')
+      await import("https://unpkg.com/diff@8.0.1/dist/diff.js");
     </script>
   </head>
 
