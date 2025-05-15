@@ -14,11 +14,16 @@ function factory() {
   const results = signal("");
   const history = signal(JSON.parse(localStorage.getItem("history") || "[]"));
 
-  const correct = effect(
-    () =>
-      results.value.trim() === text.value ||
-      results.value.trim().replace(/\W+/g, "").toLowerCase() === "correct"
-  );
+  const correct = effect(() => {
+    const input = text.value;
+    const ai = results.value.trim();
+
+    return (
+      input &&
+      ai &&
+      (ai === input || ai.replace(/\W+/g, "").toLowerCase() === "correct")
+    );
+  });
 
   effect(() => {
     localStorage.setItem("history", JSON.stringify(history.value));
@@ -57,8 +62,7 @@ function factory() {
 
     checking.value = true;
     feedbackOpen.value = true;
-    correct.value = false;
-    results.value = '';
+    results.value = "";
     results.value = await aiDutchGrammar({ text: source });
     checking.value = false;
   }
