@@ -1,6 +1,6 @@
 <template component="message-list">
   <div class="flex flex-col h-full">
-    <div class="overflow-y-scroll flex-grow">
+    <div class="overflow-y-scroll flex-grow pb-2">
       <template if="messages.length">
         <div class="flex flex-col gap-2">
           <template for="message of messages">
@@ -29,15 +29,15 @@
       </template>
       <span ref="lastMessage"></span>
     </div>
-    <div class="flex items-center justify-end space-x-2">
+    <div class="flex items-center justify-end p-1 border rounded bg-gray-100">
       <button
         on-click="suggestAnswer()"
-        class="flex items-center space-x-2 p-2"
+        class="flex items-center space-x-2 p-1"
       >
         <lucide-icon size="16" icon="sparkles"></lucide-icon>
         <span class="text-sm">Suggest an answer</span>
       </button>
-      <button on-click="newQuestion()" class="flex items-center space-x-2 p-2">
+      <button on-click="newQuestion()" class="flex items-center space-x-2 p-1">
         <lucide-icon size="16" icon="circle-help"></lucide-icon>
         <span class="text-sm">Ask me anything</span>
       </button>
