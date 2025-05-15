@@ -7,7 +7,12 @@
       <p class="whitespace-pre-wrap">{{ text }}</p>
     </template>
     <template if="suggestions">
-      <template for="next of suggestions"
+      <template for="next of removed"
+        ><span class-bg-red-100.px-1="next.removed"
+          >{{next.value}}</span
+        ></template
+      >
+      <template for="next of added"
         ><span class-bg-green-100.px-1="next.added"
           >{{next.value}}</span
         ></template
@@ -16,12 +21,20 @@
   </div>
 
   <script setup>
-    import { defineProp } from "@li3/web";
+    import { defineProp, effect } from "@li3/web";
 
     export default function () {
       defineProp("label");
       defineProp("text");
-      defineProp("suggestions");
+      const suggestions = defineProp("suggestions");
+      const added = effect(
+        () => suggestions.value && suggestions.value.filter((s) => !s.removed)
+      );
+      const removed = effect(
+        () => suggestions.value && suggestions.value.filter((s) => !s.added)
+      );
+
+      return { added, removed };
     }
   </script>
 </template>

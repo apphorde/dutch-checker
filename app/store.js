@@ -20,9 +20,7 @@ function factory() {
     const correction = results.value;
 
     suggestions.value =
-      input && correction
-        ? (await Diff.diffWords(input, correction)).filter((s) => !s.removed)
-        : null;
+      input && correction ? await Diff.diffWords(input, correction) : null;
   });
 
   const correct = effect(() => {
