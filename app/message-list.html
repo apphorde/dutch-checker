@@ -4,18 +4,27 @@
       <template if="messages.length">
         <div class="flex flex-col gap-4">
           <template for="message of messages">
-            <button
-              on-click="setText(message.contents)"
-              class="rounded px-3 py-2 text-sm"
-              class-self-start.bg-gray-100.text-black.border="message.role === 'assistant'"
-              class-self-end.bg-blue-500.text-white="message.role === 'user' || !message.role"
-              style-max-width="'80%'"
-            >
-              {{ message.contents }}
-            </button>
+            <div class="flex items-center gap-2">
+              <button
+                on-click="setText(message.contents)"
+                class="rounded px-3 py-2 text-sm"
+                class-self-start.bg-gray-100.text-black.border="message.role === 'assistant'"
+                class-self-end.bg-blue-500.text-white="message.role === 'user' || !message.role"
+                style-max-width="'80%'"
+              >
+                {{ message.contents }}
+              </button>
+              <button
+                class="text-xs opacity-0 hover:opacity-100"
+                on-click="removeMessage(message)"
+              >
+                &times;
+              </button>
+            </div>
           </template>
         </div>
       </template>
+      <span ref="lastMessage"></span>
     </div>
     <div class="flex items-center justify-end">
       <button on-click="newQuestion()" class="flex items-center space-x-2 p-2">
@@ -26,14 +35,23 @@
   </div>
 
   <script setup>
+    import { effect, templateRef } from "@li3/web";
     import useStore from "@/store.js";
 
     export default function () {
+      const lastMessage = templateRef("lastMessage");
       const { select, store } = useStore();
-      const { setText, newQuestion } = store;
+      const { setText, newQuestion, removeMessage } = store;
       const messages = select((s) => s.history || []);
+      const scrollDown = () => lastMessage.value?.scrollIntoView();
 
-      return { messages, setText, newQuestion };
+      effect(() => {
+        if (messages.value && lastMessage.value) {
+          setTimeout(scrollDown, 10);
+        }
+      });
+
+      return { messages, setText, newQuestion, removeMessage };
     }
   </script>
 </template>

@@ -109,7 +109,7 @@
 
         playbackUrl.value = URL.createObjectURL(audio.value);
         converting.value = true;
-        localText.value = await vtt(audio.value);
+        setText(await vtt(audio.value));
         converting.value = false;
       });
 

@@ -45,6 +45,10 @@ function factory() {
     }
   }
 
+  function removeMessage(message) {
+    history.value = history.value.filter((m) => m !== message);
+  }
+
   async function checkGrammar() {
     const source = text.value.trim();
 
@@ -86,6 +90,7 @@ function factory() {
     toggleFeedback,
     addToHistory,
     newQuestion,
+    removeMessage,
   };
 
   return { state, methods };
