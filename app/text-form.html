@@ -12,17 +12,35 @@
         name="sentence"
         rows="4"
         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        placeholder="Type or paste your Dutch sentence here..."
+        placeholder="Type in, record or paste your Dutch sentence here"
       ></textarea>
     </div>
+    <audio prop-src="playbackUrl" ref="player"></audio>
     <div class="flex justify-end space-x-2">
       <template if="supported">
+        <template if="playbackUrl">
+          <button
+            type="button"
+            class="bg-white border border-gray-600 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+            on-click="onPlayPause()"
+          >
+            <lucide-icon
+              class-animate-pulse.text-orange="playing"
+              bind-icon="playing ? 'volume-2' : 'play'"
+            ></lucide-icon>
+            <span>Play</span>
+          </button>
+        </template>
         <button
+          type="button"
           class="bg-white border border-gray-600 text-black flex space-x-2 items-center px-6 py-2 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-          class-animate-pulse="recording"
           on-click="onRecord()"
         >
-          Record
+          <lucide-icon
+            class-animate-spin.text-orange="recording"
+            prop-icon="recording ? 'loader-circle' : 'mic'"
+          ></lucide-icon>
+          <span>Record</span>
         </button>
       </template>
       <button
@@ -35,21 +53,34 @@
   </form>
 
   <script setup>
-    import { signal, effect } from "@li3/web";
+    import { signal, effect, templateRef } from "@li3/web";
     import { useMicrophone } from "https://transcriber.apphor.de/useMicrophone.mjs";
     import vtt from "https://vtt.jsfn.run/index.mjs";
     import useStore from "@/store.js";
 
     export default function () {
-      // const text = select((s) => s.text);
       const { store, select } = useStore();
+      const player = templateRef("player");
       const localText = signal("");
       const converting = signal("");
-      const recording = signal("");
+      const playbackUrl = signal("");
+      const playing = signal(false);
+      const recording = signal(false);
       const { checkGrammar, setText } = store;
 
       function setLocalText(v) {
         localText.value = v;
+      }
+
+      function onPlayPause() {
+        console.log(player.value);
+        if (player.value?.paused) {
+          player.value.play();
+        } else {
+          player.value?.pause();
+        }
+
+        playing.value = player.value && !player.value?.paused;
       }
 
       function onSubmit() {
@@ -80,7 +111,7 @@
           return;
         }
 
-        // playbackUrl.value = URL.createObjectURL(audio.value);
+        playbackUrl.value = URL.createObjectURL(audio.value);
         converting.value = true;
         localText.value = await vtt(audio.value);
         converting.value = false;
@@ -90,6 +121,9 @@
         onSubmit,
         setLocalText,
         onRecord,
+        onPlayPause,
+        playing,
+        playbackUrl,
         converting,
         recording,
         localText,
