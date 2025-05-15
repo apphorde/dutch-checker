@@ -12,7 +12,15 @@
       const feedbackLoading = select((s) => s.feedbackLoading);
       const { askFeedback } = store;
 
-      return { text, checking, correct, results, feedback, feedbackLoading, askFeedback };
+      return {
+        text,
+        checking,
+        correct,
+        results,
+        feedback,
+        feedbackLoading,
+        askFeedback,
+      };
     }
   </script>
   <div class="flex flex-col space-y-6">
@@ -29,9 +37,10 @@
         <button
           class="px-5 py-2 bg-red border text-white rounded-md flex items-center space-x-2"
           on-click="askFeedback()"
+          bind-disabled="feedbackLoading"
         >
           <lucide-icon
-            size="20"
+            size="16"
             bind-icon="feedbackLoading ? 'loader-circle' : 'message-circle-question'"
             class-animate-spin.text-orange="feedbackLoading"
           ></lucide-icon>
