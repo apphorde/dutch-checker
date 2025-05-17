@@ -62,6 +62,7 @@ function factory() {
         { role: "user", contents: suggestion },
       ];
       setText(suggestion);
+      suggestions.value = null;
     }
   }
 
@@ -87,6 +88,7 @@ function factory() {
 
     if (!history.value.find((h) => h.contents === v)) {
       history.value = [...history.value, { role: "user", contents: v }];
+      suggestions.value = null;
     }
   }
 

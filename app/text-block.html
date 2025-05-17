@@ -31,11 +31,13 @@
       defineProp("label");
       defineProp("text");
       const suggestions = defineProp("suggestions");
-      const added = effect(
-        () => suggestions.value && suggestions.value.filter((s) => !s.removed)
+
+      const added = effect(() =>
+        (suggestions.value || []).filter((s) => !s.removed)
       );
-      const removed = effect(
-        () => suggestions.value && suggestions.value.filter((s) => !s.added)
+
+      const removed = effect(() =>
+        (suggestions.value || []).filter((s) => !s.added)
       );
 
       return { added, removed };
