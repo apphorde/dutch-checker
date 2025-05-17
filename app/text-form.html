@@ -118,7 +118,7 @@
 
         playbackUrl.value = URL.createObjectURL(audio.value);
         converting.value = true;
-        setText(await vtt(audio.value));
+        setText(await vtt(audio.value, { language: 'nl' }));
         converting.value = false;
       });
 
