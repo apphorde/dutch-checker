@@ -35,7 +35,7 @@
       await load("./app/grammar-popup.html");
       await load("./app/grammar-results.html");
       await load("./app/message-list.html");
-      await load("./app/x-spinner.html");
+      // await load("./app/x-spinner.html");
       await import("https://unpkg.com/diff@8.0.1/dist/diff.js");
     </script>
   </head>
@@ -47,17 +47,12 @@
       <main
         class="container max-w-4xl mx-auto flex flex-col my-2 border bg-white rounded-xl flex-1 overflow-hidden"
       >
-        <p class="sr-only">
-          Type or paste a Dutch sentence to check its grammar
-        </p>
-
         <text-form class="p-4 flex-grow-0"></text-form>
         <message-list class="p-4 overflow-hidden flex-grow"></message-list>
+        <grammar-popup class="p-2 h-16 flex-grow-0"></grammar-popup>
       </main>
 
       <!-- <x-footer></x-footer> -->
-
-      <grammar-popup></grammar-popup>
     </template>
   </body>
 </html>
