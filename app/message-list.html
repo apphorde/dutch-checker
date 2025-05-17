@@ -10,8 +10,8 @@
             >
               <button
                 on-click="setText(message.contents)"
-                class="rounded text-sm mb-3"
-                class-bg-blue-500.text-white.px-3.py-1.text-left="message.role === 'user'"
+                class="rounded text-sm mb-3 text-left"
+                class-bg-blue-500.text-white.px-3.py-1="message.role === 'user'"
                 style-max-width="'80%'"
               >
                 {{ message.contents }}
