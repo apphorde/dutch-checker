@@ -6,19 +6,18 @@
           <template for="message of messages">
             <div
               class="flex items-center gap-2"
-              class-justify-end="message.role === 'user'"
+              class-jusstify-end="message.role === 'user'"
             >
               <button
                 on-click="setText(message.contents)"
-                class="rounded px-3 py-1 text-sm"
-                class-bg-gray-100.text-black.border="message.role === 'assistant'"
-                class-bg-blue-500.text-white="message.role === 'user' || !message.role"
+                class="rounded text-sm"
+                class-bg-blue-500.text-white.px-2.py-1="message.role === 'user' || !message.role"
                 style-max-width="'80%'"
               >
                 {{ message.contents }}
               </button>
               <button
-                class="text-xs opacity-0 hover:opacity-100"
+                class="text-xs opacity-0 hover:opacity-100 focus:opacity-100"
                 on-click="removeMessage(message)"
               >
                 &times;
@@ -29,7 +28,13 @@
       </template>
       <span ref="lastMessage"></span>
     </div>
-    <div class="flex items-center justify-end p-1 border rounded bg-gray-100">
+    <div class="flex items-center justify-end pt-2 gap-2">
+      <lucide-icon
+        size="16"
+        class-hidden="!thinking"
+        class-animate-spin="thinking"
+        bind-icon="thinking ? 'loader-circle' : 'sparkles'"
+      ></lucide-icon>
       <button
         on-click="suggestAnswer()"
         class="flex items-center space-x-2 p-1"
@@ -53,6 +58,7 @@
       const { select, store } = useStore();
       const { setText, newQuestion, suggestAnswer, removeMessage } = store;
       const messages = select((s) => s.history || []);
+      const thinking = select((s) => s.thinking);
       const scrollDown = () => lastMessage.value?.scrollIntoView();
 
       effect(() => {
@@ -61,7 +67,14 @@
         }
       });
 
-      return { messages, setText, newQuestion, suggestAnswer, removeMessage };
+      return {
+        messages,
+        setText,
+        newQuestion,
+        suggestAnswer,
+        removeMessage,
+        thinking,
+      };
     }
   </script>
 </template>

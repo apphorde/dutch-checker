@@ -1,13 +1,10 @@
 <template component="grammar-popup">
   <div
-    class="fixed max-w-4xl mx-auto left-0 right-0 w-full flex flex-col overflow-hidden overflow-y-scroll z-50 transition-transform duration-300 ease-in-out border bg-white shadow-lg rounded-lg"
-    class-feedback-open="feedbackOpen"
-    class-feedback-closed="!feedbackOpen"
+    class="max-w-4xl mx-auto w-full flex flex-col overflow-hidden overflow-y-scroll transition-all duration-300 ease-in-out h-8"
+    class-h-64="feedbackOpen"
   >
-    <div
-      class="flex items-center justify-between px-6 pt-5 pb-4 border-b flex-1"
-    >
-      <h2 class="text-lg font-bold">Feedback</h2>
+    <div class="flex items-center justify-between flex-1">
+      <h2 class="text-md font-bold pr-2">Feedback</h2>
       <button on-click="toggleFeedback()" class="flex items-center space-x-2">
         <lucide-icon
           icon="chevron-up"
@@ -40,12 +37,4 @@
       return { results, checking, text, toggleFeedback, feedbackOpen };
     }
   </script>
-  <style>
-    .feedback-open {
-      transform: translateY(-100%);
-    }
-    .feedback-closed {
-      transform: translateY(-24px);
-    }
-  </style>
 </template>

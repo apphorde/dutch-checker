@@ -3,6 +3,7 @@ import { onDestroy } from "@li3/web";
 import aiDutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64c827.js";
 import aiFeedback from "https://aifn.run/fn/c4a13509-1700-4da9-8b48-c936328f8d38.js";
 import dutchSuggestion from "https://aifn.run/fn/1be3cd02-19b5-41a9-948d-e41cbb819a42.js";
+import askMeAnything from "https://aifn.run/fn/d00e526a-0ecb-45b6-8ed0-7afa9afccb06.js";
 import questions from "@/questions.js";
 
 function factory() {
@@ -14,6 +15,7 @@ function factory() {
   const results = signal("");
   const history = signal(JSON.parse(localStorage.getItem("history") || "[]"));
   const suggestions = signal(null);
+  const thinking = signal(false);
 
   effect(async () => {
     const input = text.value;
@@ -50,7 +52,9 @@ function factory() {
       return;
     }
 
+    thinking.value = true;
     const suggestion = await dutchSuggestion({ text: question });
+    thinking.value = false;
 
     if (suggestion) {
       history.value = [
@@ -61,13 +65,19 @@ function factory() {
     }
   }
 
-  function newQuestion() {
+  async function newQuestion() {
     const used = history.value.map((h) => h.contents);
     const next = questions.find((q) => !used.includes(q));
 
     if (next) {
       history.value = [...history.value, { role: "assistant", contents: next }];
+      return;
     }
+
+    thinking.value = true;
+    const aiNext = await askMeAnything();
+    history.value = [...history.value, { role: "assistant", contents: aiNext }];
+    thinking.value = false;
   }
 
   function addToHistory() {
@@ -115,6 +125,7 @@ function factory() {
     feedbackLoading,
     history,
     suggestions,
+    thinking,
   };
 
   const methods = {

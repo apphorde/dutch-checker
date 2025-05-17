@@ -45,11 +45,17 @@
       <x-header class="contents"></x-header>
 
       <main
-        class="container max-w-4xl mx-auto flex flex-col my-2 border bg-white rounded-xl flex-1 overflow-hidden"
+        class="container max-w-4xl mx-auto flex flex-col my-2 overflow-hidden gap-2"
       >
-        <text-form class="p-4 flex-grow-0"></text-form>
-        <message-list class="p-4 overflow-hidden flex-grow"></message-list>
-        <grammar-popup class="p-2 h-16 flex-grow-0"></grammar-popup>
+        <message-list
+          class="p-4 overflow-hidden flex-grow bg-white border rounded-lg"
+        ></message-list>
+        <text-form
+          class="p-4 flex-grow-0 bg-white border rounded-lg"
+        ></text-form>
+        <grammar-popup
+          class="p-4 flex-grow-0 bg-white border rounded-lg overflow-hidden"
+        ></grammar-popup>
       </main>
 
       <!-- <x-footer></x-footer> -->
