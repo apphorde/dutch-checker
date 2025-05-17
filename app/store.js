@@ -46,7 +46,7 @@ function factory() {
     const lastMessage = history.value.at(-1);
     const question = lastMessage?.contents;
 
-    if (!lastMessage?.role !== "assistant" || !question) {
+    if (lastMessage?.role !== "assistant" || !question) {
       return;
     }
 
