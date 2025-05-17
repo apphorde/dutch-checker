@@ -96,6 +96,16 @@ function factory() {
     history.value = history.value.filter((m) => m !== message);
   }
 
+  // reset when text changes
+  effect(() => {
+    if (text.value) {
+      results.value = "";
+      suggestions.value = null;
+      feedback.value = "";
+      feedbackOpen.value = false;
+    }
+  });
+
   async function checkGrammar() {
     const source = text.value.trim();
 
