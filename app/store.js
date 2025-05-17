@@ -82,6 +82,9 @@ function factory() {
 
   function addToHistory() {
     const v = text.value;
+
+    if (!v) return;
+
     if (!history.value.find((h) => h.contents === v)) {
       history.value = [...history.value, { role: "user", contents: v }];
     }

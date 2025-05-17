@@ -35,7 +35,7 @@
         </template>
         <button
           type="button"
-          class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-4 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+          class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
           on-click="onRecord()"
         >
           <lucide-icon
@@ -44,9 +44,15 @@
             class-animate-spin="recording || converting"
             prop-icon="recording ? 'loader-circle' : (converting ? 'badge' : 'mic')"
           ></lucide-icon>
-          <span>Record</span>
         </button>
       </template>
+      <button
+        type="button"
+        class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+        on-click="addToHistory()"
+      >
+        <lucide-icon size="16" icon="send"></lucide-icon>
+      </button>
       <button
         type="submit"
         class="bg-orange border border-white text-white flex items-center space-x-1 px-4 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
@@ -118,7 +124,7 @@
 
         playbackUrl.value = URL.createObjectURL(audio.value);
         converting.value = true;
-        setText(await vtt(audio.value, { language: 'nl' }));
+        setText(await vtt(audio.value, { language: "nl" }));
         converting.value = false;
       });
 
@@ -126,6 +132,7 @@
         onSubmit,
         onRecord,
         onPlayPause,
+        addToHistory,
         playing,
         checking,
         converting,
