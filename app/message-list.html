@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-2">
           <template for="message of messages">
             <div
-              class="flex items-center"
+              class="flex items-start"
               class-justify-end="message.role === 'user'"
             >
               <button
@@ -17,7 +17,7 @@
                 {{ message.contents }}
               </button>
               <button
-                class="text-xs opacity-100 sm:opacity-0 hover:opacity-100 focus:opacity-100"
+                class="text-xs p-2 opacity-100 sm:opacity-0 hover:opacity-100 focus:opacity-100"
                 on-click="removeMessage(message)"
               >
                 &times;
