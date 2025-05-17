@@ -40,7 +40,7 @@
     </script>
   </head>
 
-  <body class="overflow-hidden w-screen h-screen bg-gray-50 flex flex-col">
+  <body class="overflow-hidden w-screen h-screen sm:bg-gray-50 flex flex-col">
     <template app>
       <x-header class="contents"></x-header>
 
@@ -48,13 +48,13 @@
         class="container max-w-4xl mx-auto flex flex-col my-2 overflow-hidden gap-2 h-full"
       >
         <message-list
-          class="p-4 overflow-hidden flex-grow bg-white border rounded-lg h-full"
+          class="p-4 overflow-hidden flex-grow bg-white sm:border sm:rounded-lg h-full"
         ></message-list>
         <text-form
-          class="p-4 flex-grow-0 bg-white border rounded-lg"
+          class="p-4 flex-grow-0 bg-white border sm:rounded-lg"
         ></text-form>
         <grammar-popup
-          class="p-4 flex-grow-0 bg-white border rounded-lg overflow-hidden"
+          class="p-4 flex-grow-0 bg-white sm:border sm:rounded-lg"
         ></grammar-popup>
       </main>
 

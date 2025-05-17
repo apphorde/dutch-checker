@@ -1,11 +1,11 @@
 <template component="grammar-popup">
   <div
-    class="max-w-4xl mx-auto w-full flex flex-col overflow-hidden overflow-y-scroll transition-all duration-300 ease-in-out h-8"
+    class="max-w-4xl mx-auto w-full overflow-y-scroll transition-all duration-300 ease-in-out h-8"
     class-h-64="feedbackOpen"
   >
-    <div class="flex items-center justify-between flex-1">
-      <h2 class="text-md font-bold pr-2">Feedback</h2>
-      <button on-click="toggleFeedback()" class="flex items-center space-x-2">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-md font-bold">Feedback</h2>
+      <button on-click="toggleFeedback()">
         <lucide-icon
           icon="chevron-up"
           class="transform transition-transform duration-300 ease-in-out"
@@ -14,10 +14,9 @@
       </button>
     </div>
 
-    <div class="p-6 h-full">
-      <grammar-results class="block mb-4"></grammar-results>
-      <grammar-feedback></grammar-feedback>
-    </div>
+    <grammar-results class="block mb-4"></grammar-results>
+
+    <grammar-feedback></grammar-feedback>
   </div>
 
   <script setup>
