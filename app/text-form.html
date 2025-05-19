@@ -1,6 +1,6 @@
 <template component="text-form">
   <form class="flex flex-col space-y-4" on-submit.prevent.stop="onSubmit()">
-    <div>
+    <div class="flex items-start gap-2">
       <label
         for="sentence"
         class="block text-sm font-medium text-gray-700 mb-1 sr-only"
@@ -10,19 +10,35 @@
         on-input="setText($event.target.value)"
         prop-value="text"
         name="sentence"
-        bind-rows="text.split('\n').length"
+        bind-rows="text.split('\n').length + 1"
         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         placeholder="Type in, record or paste your Dutch sentence here"
       ></textarea>
+      <div class="flex flex-col gap-2 items-start">
+        <button
+          type="button"
+          class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+          on-click="setText('')"
+        >
+          <lucide-icon size="16" icon="trash"></lucide-icon>
+        </button>
+        <button
+          type="button"
+          class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+          on-click="addToHistory()"
+        >
+          <lucide-icon size="16" icon="send"></lucide-icon>
+        </button>
+      </div>
     </div>
 
     <div class="flex justify-end space-x-2">
-      <audio prop-src="playbackUrl" ref="player"></audio>
+      <audio prop-src="playbackUrl" ref="player" onended="onAudioEnd()"></audio>
       <template if="supported">
         <template if="playbackUrl">
           <button
             type="button"
-            class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-4 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+            class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
             on-click="onPlayPause()"
           >
             <lucide-icon
@@ -30,7 +46,6 @@
               class-animate-pulse.text-orange="playing"
               bind-icon="playing ? 'volume-2' : 'play'"
             ></lucide-icon>
-            <span>Play</span>
           </button>
         </template>
         <button
@@ -46,13 +61,6 @@
           ></lucide-icon>
         </button>
       </template>
-      <button
-        type="button"
-        class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-        on-click="addToHistory()"
-      >
-        <lucide-icon size="16" icon="send"></lucide-icon>
-      </button>
       <button
         type="submit"
         class="bg-orange border border-white text-white flex items-center space-x-1 px-4 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
@@ -95,6 +103,10 @@
         playing.value = player.value && !player.value?.paused;
       }
 
+      function onAudioEnd() {
+        playing.value = false;
+      }
+
       async function onSubmit() {
         if (text.value) {
           await addToHistory();
@@ -132,6 +144,7 @@
         onSubmit,
         onRecord,
         onPlayPause,
+        onAudioEnd,
         addToHistory,
         playing,
         checking,

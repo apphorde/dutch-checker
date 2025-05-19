@@ -24,41 +24,15 @@
       }
     </script>
     <script type="module">
-      import "@li3/web";
-      import "@lucide/lucide-icon";
       import { load } from "@li3/web";
 
-      await load("./app/x-header.html");
-      await load("./app/x-footer.html");
-      await load("./app/text-form.html");
-      await load("./app/text-block.html");
-      await load("./app/grammar-popup.html");
-      await load("./app/grammar-results.html");
-      await load("./app/message-list.html");
-      // await load("./app/x-spinner.html");
-      await import("https://unpkg.com/diff@8.0.1/dist/diff.js");
+      await load("./app/app-main.html");
+      import("@lucide/lucide-icon");
+      import("https://unpkg.com/diff@8.0.1/dist/diff.js");
     </script>
   </head>
 
-  <body class="overflow-hidden w-screen h-screen sm:bg-gray-50 flex flex-col">
-    <template app>
-      <x-header class="contents"></x-header>
-
-      <main
-        class="container max-w-4xl mx-auto flex flex-col my-2 overflow-hidden gap-2 h-full"
-      >
-        <message-list
-          class="p-4 overflow-hidden flex-grow bg-white sm:border sm:rounded-lg h-full"
-        ></message-list>
-        <text-form
-          class="p-4 flex-grow-0 bg-white border sm:rounded-lg"
-        ></text-form>
-        <grammar-popup
-          class="p-4 flex-grow-0 bg-white sm:border sm:rounded-lg"
-        ></grammar-popup>
-      </main>
-
-      <!-- <x-footer></x-footer> -->
-    </template>
+  <body>
+    <app-main></app-main>
   </body>
 </html>

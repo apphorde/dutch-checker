@@ -40,6 +40,16 @@ function factory() {
     localStorage.setItem("history", JSON.stringify(history.value));
   });
 
+  // reset when text changes
+  effect(() => {
+    if (!text.value) {
+      results.value = "";
+      suggestions.value = null;
+      feedback.value = "";
+      feedbackOpen.value = false;
+    }
+  });
+
   function setText(newText) {
     text.value = newText;
   }
@@ -96,16 +106,6 @@ function factory() {
     history.value = history.value.filter((m) => m !== message);
   }
 
-  // reset when text changes
-  effect(() => {
-    if (text.value) {
-      results.value = "";
-      suggestions.value = null;
-      feedback.value = "";
-      feedbackOpen.value = false;
-    }
-  });
-
   async function checkGrammar() {
     const source = text.value.trim();
 
@@ -127,7 +127,7 @@ function factory() {
   }
 
   async function toggleFeedback() {
-    feedbackOpen.value = !feedbackOpen.value;
+    feedbackOpen.value = !text.value ? false : !feedbackOpen.value;
   }
 
   const state = {

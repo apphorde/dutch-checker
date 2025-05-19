@@ -28,13 +28,7 @@
       </template>
       <span ref="lastMessage"></span>
     </div>
-    <div class="flex items-center justify-end pt-2 gap-2">
-      <lucide-icon
-        size="16"
-        class-hidden="!thinking"
-        class-animate-spin="thinking"
-        bind-icon="thinking ? 'loader-circle' : 'sparkles'"
-      ></lucide-icon>
+    <div class="flex items-center justify-center pt-2 gap-2">
       <button
         on-click="suggestAnswer()"
         class="flex items-center space-x-2 p-1"
@@ -42,6 +36,12 @@
         <lucide-icon size="16" icon="sparkles"></lucide-icon>
         <span class="text-sm">Suggest an answer</span>
       </button>
+      <lucide-icon
+        size="16"
+        class-opacity-0="!thinking"
+        class-animate-spin="thinking"
+        bind-icon="thinking ? 'loader-circle' : 'sparkles'"
+      ></lucide-icon>
       <button on-click="newQuestion()" class="flex items-center space-x-2 p-1">
         <lucide-icon size="16" icon="circle-help"></lucide-icon>
         <span class="text-sm">Ask me anything</span>
