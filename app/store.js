@@ -78,7 +78,12 @@ function factory() {
 
   async function newQuestion() {
     const used = history.value.map((h) => h.contents);
-    const next = questions.find((q) => !used.includes(q));
+    const unused = questions.filter((q) => !used.includes(q));
+    const next = !unused.length
+      ? ""
+      : unused.at(
+          Math.floor(unused.length * 100 * Math.random()) % unused.length
+        );
 
     if (next) {
       history.value = [...history.value, { role: "assistant", contents: next }];
