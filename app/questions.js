@@ -1,5 +1,4 @@
-export default `
-Wat vindt u een leuk programma op televisie? Vertel ook welk programma u niet leuk vindt.
+export default `Wat vindt u een leuk programma op televisie? Vertel ook welk programma u niet leuk vindt.
 Wat doet u graag in uw vrije tijd? Vertel ook waar u dat doet.
 Wat vindt u van uw buren? En hoe lang kent u ze al?
 Wat kunt u goed? Vertel ook hoe vaak u dit doet.
@@ -43,6 +42,33 @@ Reist u liever met de trein of de auto? Vertel ook waarom.
 Reist u liever met de fiets of met het openbaar vervoer? Vertel ook waarom.
 In Nederland rijden veel fietsen. Wat vindt u daarvan? En waarom?
 Reist u vaak met de bus? Vertel ook waarom.
-`
+Ik luister elke dag naar het nieuws op de radio. Hoe vaak luistert u naar de radio? En naar welke programma's luistert u het liefst?
+In welke plaats woont u nu? Vertel ook wat u leuk vindt aan deze plaats.
+Van welke sport houdt u? En welk land is goed in die sport.
+Welke muziek luistert u graag? Zeg ook hoe vaak u daarnaar luistert.
+Ik ben wel eens boos. Bent u ook wel eens boos? Zeg ook in welke situaties u boos bent?
+Wat vind u een leuk programma op de televisie? Vertel ook welk programma u niet leuk vindt.
+Wat deed u gisteren. Vertel ook met wie u dat deed.
+Wat kunt u goed. En van wie hebt u dat geleerd.
+Wat doet u graag als het mooi weer is? Vertel ook met wie u dat doet.
+Welk Nederlands gerecht vindt u lekker en wanneer eet u dat?
+Wanneer gebruikt u uw telefoon? En sinds wanneer hebt u een telefoon?
+Waar doet u meestal boodschappen? Vertel ook wanneer u boodschappen doet.
+Wat voor hobby's heeft u? Vertel ook wanneer u die dingen doet.
+Waar gaat u het liefst winkelen? Vertel ook wanneer u het liefst gaat winkelen.
+Hoe vaak gaat u op vakantie? Vertel ook waar u het liefst op vakantie gaat.
+Welk nagerecht eet u liever? Vertel ook waarom.
+Harry koopt vaak kleding online. Koopt u uw kleding online of in de winkel? Vertel ook waarom.
+U ziet hier twee manieren om op vakantie te gaan. Hoe gaat u liever op vakantie? Vertel ook waarom.
+U gaat naar uw werk. Met welk vervoersmiddel gaat u het liefst? En hoe laat gaat u naar uw werk?
+Wat vindt u het leukst om te doen? Met wie doet u dit?
+Wat doet u liever in uw vrije tijd? Een film kijken of naar het museum gaan? Vertel ook waarom.
+Hoe gaat u het liefst op vakantie? Vertel ook waar u graag op vakantie gaat.
+Welk gebouw vindt u mooier? Vertel ook waarom?
+Peter en Sara zitten in het café. Wat drinken zij volgens u? Vertel ook wat u het liefst drinkt.
+Michel zit niet op zijn fiets. Wat doet hij? En waarom doet hij dat volgens u?
+Melissa houdt van koken. Wat kookt zij hier? En wat kookt u graag?
+Frank is met zijn vrienden. Wat doen ze? En waar zijn ze volgens u?
+Kees gaat naar zijn werk. Wat heeft hij bij zich? En wat voor werk doet hij?`
   .trim()
   .split("\n");
