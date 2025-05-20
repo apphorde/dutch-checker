@@ -50,6 +50,12 @@
         </button>
       </template>
       <template if="selected">
+        <template if="playbackUrl">
+          <button class="p-2" on-click="player.paused ? player.play() : player.pause()">
+            <lucide-icon size="16" icon="play"></lucide-icon>
+          </button>
+        </template>
+
         <button class="p-2" on-click="speak(selected.contents)">
           <lucide-icon size="16" icon="volume-2"></lucide-icon>
         </button>
@@ -80,6 +86,12 @@
       effect(() => {
         if (messages.value && lastMessage.value) {
           setTimeout(scrollDown, 50);
+        }
+      });
+
+      effect(() => {
+        if (selected.value) {
+          playbackUrl.value = "";
         }
       });
 
