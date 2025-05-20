@@ -11,8 +11,8 @@
             >
               <button
                 on-click="selectMessage(message)"
-                class="rounded text-sm text-left"
-                class-bg-blue-500.text-white.px-3.py-1="message.role === 'user'"
+                class="rounded text-sm text-left px-3.py-1"
+                class-bg-blue-500.text-white="message.role === 'user'"
                 style-max-width="'80%'"
               >
                 {{ message.contents }}
@@ -24,10 +24,7 @@
       <span ref="lastMessage"></span>
       <audio prop-src="playbackUrl" ref="player"></audio>
     </div>
-    <div
-      class="flex items-center justify-end pt-2 gap-2 h-10"
-      class-opacity-0="!selected"
-    >
+    <div class="flex items-center justify-end pt-2 gap-2 h-10">
       <lucide-icon
         size="16"
         class-opacity-0="!thinking"
@@ -52,13 +49,15 @@
           <span class="text-sm">Suggest an answer</span>
         </button>
       </template>
-      <button class="p-2" on-click="speak(selected.contents)">
-        <lucide-icon size="16" icon="volume-2"></lucide-icon>
-      </button>
+      <template if="selected">
+        <button class="p-2" on-click="speak(selected.contents)">
+          <lucide-icon size="16" icon="volume-2"></lucide-icon>
+        </button>
 
-      <button class="p-2" on-click="removeMessage(selected)">
-        <lucide-icon size="16" icon="trash"></lucide-icon>
-      </button>
+        <button class="p-2" on-click="removeMessage(selected)">
+          <lucide-icon size="16" icon="trash"></lucide-icon>
+        </button>
+      </template>
     </div>
   </div>
 
