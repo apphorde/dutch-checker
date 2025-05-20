@@ -108,7 +108,9 @@ function factory() {
   }
 
   function removeMessage(message) {
-    history.value = history.value.filter((m) => m !== message);
+    history.value = history.value.filter(
+      (m) => m.contents !== message.contents
+    );
   }
 
   async function checkGrammar() {

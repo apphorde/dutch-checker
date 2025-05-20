@@ -1,12 +1,5 @@
 <template component="message-list">
-  <div class="flex flex-col h-full relative">
-    <lucide-icon
-      size="16"
-      class="absolute right-0 left-0 m-2"
-      class-opacity-0="!thinking"
-      class-animate-spin="thinking"
-      icon="loader-circle"
-    ></lucide-icon>
+  <div class="flex flex-col h-full">
     <div class="overflow-y-scroll flex-grow pb-2">
       <template if="messages.length">
         <div class="flex flex-col gap-2">
@@ -31,35 +24,42 @@
       <span ref="lastMessage"></span>
       <audio prop-src="playbackUrl" ref="player"></audio>
     </div>
-    <template if="!!selected">
-      <div class="flex items-center justify-end pt-2 gap-2">
-        <template if="messages.at(-1)?.role === 'user'">
-          <button
-            on-click="newQuestion()"
-            class="flex items-center space-x-2 p-1"
-          >
-            <lucide-icon size="16" icon="circle-help"></lucide-icon>
-            <span class="text-sm">Ask me anything</span>
-          </button>
-        </template>
-        <template if="messages.at(-1)?.role !== 'user'">
-          <button
-            on-click="suggestAnswer()"
-            class="flex items-center space-x-2 p-1"
-          >
-            <lucide-icon size="16" icon="sparkles"></lucide-icon>
-            <span class="text-sm">Suggest an answer</span>
-          </button>
-        </template>
-        <button class="p-2" on-click="speak(selected.contents)">
-          <lucide-icon size="16" icon="volume-2"></lucide-icon>
+    <div
+      class="flex items-center justify-end pt-2 gap-2 h-10"
+      class-opacity-0="!selected"
+    >
+      <lucide-icon
+        size="16"
+        class-opacity-0="!thinking"
+        class-animate-spin="thinking"
+        icon="loader-circle"
+      ></lucide-icon>
+      <template if="messages.at(-1)?.role === 'user'">
+        <button
+          on-click="newQuestion()"
+          class="flex items-center space-x-2 p-1"
+        >
+          <lucide-icon size="16" icon="circle-help"></lucide-icon>
+          <span class="text-sm">Ask me anything</span>
         </button>
+      </template>
+      <template if="messages.at(-1)?.role !== 'user'">
+        <button
+          on-click="suggestAnswer()"
+          class="flex items-center space-x-2 p-1"
+        >
+          <lucide-icon size="16" icon="sparkles"></lucide-icon>
+          <span class="text-sm">Suggest an answer</span>
+        </button>
+      </template>
+      <button class="p-2" on-click="speak(selected.contents)">
+        <lucide-icon size="16" icon="volume-2"></lucide-icon>
+      </button>
 
-        <button class="p-2" on-click="removeMessage(selected)">
-          <lucide-icon size="16" icon="trash"></lucide-icon>
-        </button>
-      </div>
-    </template>
+      <button class="p-2" on-click="removeMessage(selected)">
+        <lucide-icon size="16" icon="trash"></lucide-icon>
+      </button>
+    </div>
   </div>
 
   <script setup>
@@ -113,6 +113,7 @@
         suggestAnswer,
         removeMessage,
         thinking,
+        playbackUrl,
       };
     }
   </script>
