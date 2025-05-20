@@ -84,7 +84,9 @@
       });
 
       async function speak(text) {
-        const response = await tts(text);
+        const response = await tts(text, {
+          voice: "nl_NL-ronnie-medium",
+        });
 
         if (!response.ok) {
           throw new Error("Narrator failed");
@@ -94,7 +96,12 @@
           type: "audio/mp3",
         });
 
-        const href = URL.createObjectURL(blob);
+        if (playbackUrl.value) {
+          URL.revokeObjectURL(playbackUrl.value);
+        }
+
+        playbackUrl.value = URL.createObjectURL(blob);
+        audio.play();
       }
 
       function selectMessage(message) {
