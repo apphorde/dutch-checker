@@ -185,14 +185,27 @@ function factory() {
   return { state, methods };
 }
 
+function debounce(func, wait = 200) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 function createStore(name, factory) {
   const storeKey = `$store$${name}`;
   const { state, methods } = factory();
   const stored = JSON.parse(localStorage.getItem(storeKey) || "{}");
   const readonlyState = {};
 
-  const save = () =>
-    localStorage.setItem(storeKey, JSON.stringify(readonlyState));
+  const save = debounce(() =>
+    localStorage.setItem(storeKey, JSON.stringify(readonlyState))
+  );
 
   for (const k of Object.keys(state)) {
     state[k].watch(save);
