@@ -127,8 +127,6 @@ function factory() {
     results.value = "";
     results.value = await aiDutchGrammar({ text: source });
     checking.value = false;
-
-    
   }
 
   async function askFeedback() {
@@ -187,22 +185,33 @@ function factory() {
   return { state, methods };
 }
 
-function createStore(factory) {
+function createStore(name, factory) {
+  const storeKey = `$store$${name}`;
   const { state, methods } = factory();
-  const stateView = {};
+  const stored = JSON.parse(localStorage.getItem(storeKey) || "{}");
+  const readonlyState = {};
+
+  const save = () =>
+    localStorage.setItem(storeKey, JSON.stringify(readonlyState));
 
   for (const k of Object.keys(state)) {
-    Object.defineProperty(stateView, k, {
+    state[k].watch(save);
+    Object.defineProperty(readonlyState, k, {
+      enumerable: true,
+      configurable: false,
       get() {
         return state[k].value;
-      },
-      set(v) {
-        state[k].value = v;
       },
     });
   }
 
-  return { methods, state: stateView };
+  for (const k of Object.keys(stored)) {
+    if (state[k] && !state[k].readonly) {
+      state[k].value = stored[k];
+    }
+  }
+
+  return { methods, state: readonlyState };
 }
 
 function useStore(store) {
@@ -222,7 +231,7 @@ function useStore(store) {
   return { store: methods, select };
 }
 
-const store = createStore(factory);
+const store = createStore("main", factory);
 
 export default function () {
   return useStore(store);
