@@ -1,5 +1,5 @@
 <template component="text-form">
-  <form class="flex flex-col space-y-4" on-submit.prevent.stop="onSubmit()">
+  <form class="flex flex-col space-y-4" on-submit.prevent.stop="onCheck()">
     <div class="flex items-start gap-2">
       <label
         for="sentence"
@@ -25,7 +25,7 @@
         <button
           type="button"
           class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-          on-click="addToHistory()"
+          on-click="answerQuestion()"
         >
           <lucide-icon size="16" icon="send"></lucide-icon>
         </button>
@@ -91,7 +91,14 @@
       const messages = select((s) => s.history || []);
       const text = select((s) => s.text);
       const recording = signal(false);
-      const { checkGrammar, setText, addToHistory } = store;
+      const { checkGrammar, translate, setText, addToHistory, newQuestion } =
+        store;
+      const { supported, audio, start, stop } = useMicrophone();
+
+      async function answerQuestion() {
+        await addToHistory();
+        await newQuestion();
+      }
 
       function onPlayPause() {
         if (player.value?.paused) {
@@ -107,14 +114,10 @@
         playing.value = false;
       }
 
-      async function onSubmit() {
-        if (text.value) {
-          await addToHistory();
-          await checkGrammar();
-        }
+      function onCheck() {
+        checkGrammar();
+        translate();
       }
-
-      const { supported, audio, start, stop } = useMicrophone();
 
       async function onRecord() {
         if (!supported.value) return;
@@ -141,11 +144,11 @@
       });
 
       return {
-        onSubmit,
         onRecord,
         onPlayPause,
         onAudioEnd,
-        addToHistory,
+        answerQuestion,
+        onCheck,
         playing,
         checking,
         converting,

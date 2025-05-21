@@ -8,6 +8,7 @@
       const checking = select((s) => s.checking);
       const correct = select((s) => s.correct);
       const results = select((s) => s.results.trim());
+      const translation = select((s) => s.translation.trim());
       const feedback = select((s) => s.feedback.trim());
       const feedbackLoading = select((s) => s.feedbackLoading);
       const suggestions = select((s) => s.suggestions);
@@ -22,6 +23,7 @@
         feedbackLoading,
         suggestions,
         askFeedback,
+        translation,
       };
     }
   </script>
@@ -52,6 +54,10 @@
           <span>Get feedback</span>
         </button>
       </div>
+    </template>
+
+    <template if="translation">
+      <text-block label="Translation" prop-text="translation"></text-block>
     </template>
 
     <template if="results && !correct && feedback">

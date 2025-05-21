@@ -4,6 +4,7 @@ import aiDutchGrammar from "https://aifn.run/fn/f87db9da-dbe7-4f40-b874-18b76b64
 import aiFeedback from "https://aifn.run/fn/c4a13509-1700-4da9-8b48-c936328f8d38.js";
 import dutchSuggestion from "https://aifn.run/fn/1be3cd02-19b5-41a9-948d-e41cbb819a42.js";
 import askMeAnything from "https://aifn.run/fn/d00e526a-0ecb-45b6-8ed0-7afa9afccb06.js";
+import translateText from "https://aifn.run/fn/228e48d5-7188-4529-bfc6-8430b4ecf8a0.js";
 import questions from "@/questions.js";
 
 function factory() {
@@ -13,6 +14,7 @@ function factory() {
   const feedbackLoading = signal(false);
   const feedbackOpen = signal(false);
   const results = signal("");
+  const translation = signal("");
   const history = signal(JSON.parse(localStorage.getItem("history") || "[]"));
   const suggestions = signal(null);
   const thinking = signal(false);
@@ -125,6 +127,8 @@ function factory() {
     results.value = "";
     results.value = await aiDutchGrammar({ text: source });
     checking.value = false;
+
+    
   }
 
   async function askFeedback() {
@@ -135,6 +139,23 @@ function factory() {
 
   async function toggleFeedback() {
     feedbackOpen.value = !text.value ? false : !feedbackOpen.value;
+  }
+
+  async function translate() {
+    const source = text.value.trim();
+
+    if (!source) {
+      return;
+    }
+
+    checking.value = true;
+    translation.value = "";
+    translation.value = await translateText({
+      text: source,
+      language: "nl",
+      target: "en",
+    });
+    checking.value = false;
   }
 
   const state = {
@@ -148,10 +169,12 @@ function factory() {
     history,
     suggestions,
     thinking,
+    translation,
   };
 
   const methods = {
     setText,
+    translate,
     checkGrammar,
     askFeedback,
     toggleFeedback,

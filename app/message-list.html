@@ -2,22 +2,22 @@
   <div class="flex flex-col h-full">
     <div class="overflow-y-scroll flex-grow pb-2">
       <template if="messages.length">
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col">
           <template for="message of messages">
-            <div
-              class="flex items-start mb-3"
+            <button
+              on-click="selectMessage(message)"
+              class="flex items-start py-1 rounded"
               class-justify-end="message.role === 'user'"
               class-bg-gray-100="selected && (selected === message)"
             >
-              <button
-                on-click="selectMessage(message)"
+              <div
                 class="rounded text-sm text-left px-3 py-1"
                 class-bg-blue-500.text-white="message.role === 'user'"
                 style-max-width="'80%'"
               >
                 {{ message.contents }}
-              </button>
-            </div>
+              </div>
+            </button>
           </template>
         </div>
       </template>
@@ -51,7 +51,10 @@
       </template>
       <template if="selected">
         <template if="playbackUrl">
-          <button class="p-2" on-click="player.paused ? player.play() : player.pause()">
+          <button
+            class="p-2"
+            on-click="player.paused ? player.play() : player.pause()"
+          >
             <lucide-icon size="16" icon="play"></lucide-icon>
           </button>
         </template>
