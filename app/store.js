@@ -15,7 +15,7 @@ function factory() {
   const feedbackOpen = signal(false);
   const results = signal("");
   const translation = signal("");
-  const history = signal(JSON.parse(localStorage.getItem("history") || "[]"));
+  const history = signal([]);
   const suggestions = signal(null);
   const thinking = signal(false);
 
@@ -36,10 +36,6 @@ function factory() {
       ai &&
       (ai === input || ai.replace(/\W+/g, "").toLowerCase() === "correct")
     );
-  });
-
-  effect(() => {
-    localStorage.setItem("history", JSON.stringify(history.value));
   });
 
   // reset when text changes
@@ -181,6 +177,10 @@ function factory() {
     removeMessage,
     suggestAnswer,
   };
+
+  if (!history.value.length) {
+    newQuestion();
+  }
 
   return { state, methods };
 }
