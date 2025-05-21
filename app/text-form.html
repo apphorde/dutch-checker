@@ -20,7 +20,7 @@
           class="bg-white border border-gray-300 text-black flex items-center space-x-1 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
           on-click="setText('')"
         >
-          <lucide-icon size="16" icon="trash"></lucide-icon>
+          <lucide-icon size="16" icon="x"></lucide-icon>
         </button>
         <button
           type="button"
@@ -98,6 +98,7 @@
       async function answerQuestion() {
         await addToHistory();
         await newQuestion();
+        setText("");
       }
 
       function onPlayPause() {
