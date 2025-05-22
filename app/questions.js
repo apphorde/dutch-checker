@@ -59,16 +59,11 @@ Waar gaat u het liefst winkelen? Vertel ook wanneer u het liefst gaat winkelen.
 Hoe vaak gaat u op vakantie? Vertel ook waar u het liefst op vakantie gaat.
 Welk nagerecht eet u liever? Vertel ook waarom.
 Harry koopt vaak kleding online. Koopt u uw kleding online of in de winkel? Vertel ook waarom.
-U ziet hier twee manieren om op vakantie te gaan. Hoe gaat u liever op vakantie? Vertel ook waarom.
+Hoe gaat u liever op vakantie? Vertel ook waarom.
 U gaat naar uw werk. Met welk vervoersmiddel gaat u het liefst? En hoe laat gaat u naar uw werk?
 Wat vindt u het leukst om te doen? Met wie doet u dit?
 Wat doet u liever in uw vrije tijd? Een film kijken of naar het museum gaan? Vertel ook waarom.
 Hoe gaat u het liefst op vakantie? Vertel ook waar u graag op vakantie gaat.
-Welk gebouw vindt u mooier? Vertel ook waarom?
-Peter en Sara zitten in het café. Wat drinken zij volgens u? Vertel ook wat u het liefst drinkt.
-Michel zit niet op zijn fiets. Wat doet hij? En waarom doet hij dat volgens u?
-Melissa houdt van koken. Wat kookt zij hier? En wat kookt u graag?
-Frank is met zijn vrienden. Wat doen ze? En waar zijn ze volgens u?
-Kees gaat naar zijn werk. Wat heeft hij bij zich? En wat voor werk doet hij?`
+`
   .trim()
   .split("\n");
